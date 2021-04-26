@@ -45,23 +45,23 @@ Argument& ArgumentParser::add_argument(std::string arg)
 }
 
 //template<typename T>
-Argument& ArgumentParser::add_argument(std::string arg1, std::string arg2)
+Argument& ArgumentParser::add_argument(std::string shortParameterName, std::string longParameterName)
 {
-    //check if arg1 and arg2 begins with '-'
     //TODO: '-' can be redefined by user
-    if (arg1[0] != '-' || arg2[0] != '-' || arg2[1] != '-')
+    if (shortParameterName[0] != '-' || longParameterName[0] != '-' 
+        || longParameterName[1] != '-')
         throw std::invalid_argument("arguments have to begin with '-'");
    
-   _optionalArguments.push_back(Argument().name(arg1, arg2));
+   _optionalArguments.push_back(Argument().name(shortParameterName, longParameterName));
    
    //usage
    std::string msg = "";
-   msg = "[" + arg1 + "]";
+   msg = "[" + shortParameterName + "]";
    addUsage(msg);
 
    //TODO:if arg1 is called from command line, agr2 needs to be true as well
-   _activeArguments.insert({arg1, false});
-   _activeArguments.insert({arg2, false});
+   _activeArguments.insert({shortParameterName, false});
+   _activeArguments.insert({longParameterName, false});
     return _optionalArguments.back();
 }
 
@@ -73,19 +73,7 @@ void ArgumentParser::parse_argument(int argc, char* argv[])
         std::exit(0);
     }
 
-    std::vector<std::string> parsedArguments;
-    //maybe push back optional 1st then positional
-    for (int i = 0; i < argc; i++)
-    {
-        parsedArguments.push_back(argv[i]);
-    }
-
-    parse_argument(parsedArguments);
-}
-
-void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
-{
-    std::string path = parsedAgruments.front();
+    std::string path = argv[0];
     if (path.find('\\') != std::string::npos)
     {
         programNameFromArgv(path);
@@ -95,11 +83,24 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
         _programName = path;
     }
 
-    unsigned posArgsCount = 0;
-    for (int j = 1; j < parsedAgruments.size(); ++j)
+    std::vector<std::string> parsedArguments;
+    //maybe push back optional 1st then positional
+    for (int i = 1; i < argc; i++)
     {
-        //help is allways the first optional argument
-        auto firstOptional = _optionalArguments.front();
+        parsedArguments.push_back(argv[i]);
+    }
+
+    parse_argument(parsedArguments);
+}
+
+void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
+{
+    
+    unsigned positionalArgumentsCount = 0;
+    //help is allways the first optional argument
+    auto firstOptional = _optionalArguments.front();
+    for (int j = 0; j < parsedAgruments.size(); ++j)
+    {
         if (parsedAgruments[j] == firstOptional._name[0] 
             || parsedAgruments[j] == firstOptional._name[1])
         {
@@ -107,28 +108,38 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
             std::exit(0);
         }
 
-        //if it is an optional argument
-        //TODO: wrong input and different arguments for positional
+        //TODO: different arguments for positional
         //TODO: make a function for some of the code
-        if (parsedAgruments[j][0] == '-') 
+        if (parsedAgruments[j][0] == '-') //optional arguments
         {
-            _activeArguments[parsedAgruments[j]] = true;
-        }
-        else
-        {
-            if (_positionalArguments.size() < posArgsCount+1)
+            auto search = _activeArguments.find(parsedAgruments[j]);
+            if(search != _activeArguments.end())
+            { 
+                activateArguments(parsedAgruments[j]);
+            }
+            else
             {
-                std::cerr << "To much positional arguments" << std::endl;
+                std::cerr << "Invalid argument: " << parsedAgruments[j] << std::endl;
                 std::exit(0);
             }
-            auto args = _positionalArguments[posArgsCount]._nargs;
+        }
+        else //positional arguments
+        {
+            if (_positionalArguments.size() < positionalArgumentsCount+1)
+            {
+                std::cerr << "To many positional arguments: " << _positionalArguments.size()
+                    << " expected, but more were parsed"<< std::endl;
+                std::exit(0);
+            }
+            auto args = _positionalArguments[positionalArgumentsCount]._nargs;
             for (unsigned i = 0; i < args; i++)
             { 
-                _positionalArguments[posArgsCount]._positionalValues.push_back(parsedAgruments[j]);
+                
+                _positionalArguments[positionalArgumentsCount].resolveArgumentTypes(parsedAgruments[j]);
                 j++;
             }
             j--;
-            posArgsCount++;
+            positionalArgumentsCount++;
         }
     }
 }
@@ -174,22 +185,45 @@ void ArgumentParser::addUsage(std::string msg)
     _usage += msg + " ";
 }
 
-std::vector<Argument> ArgumentParser::getOptionalArguments()
+bool ArgumentParser::isActive(std::string argumentName)
+{
+    return _activeArguments[argumentName];
+}
+
+void ArgumentParser::activateArguments(const std::string parsedArgument)
+{
+    for (const auto& argument : _optionalArguments)
+    {
+        std::vector<std::string> argumentNames = argument.getNames();
+        if (parsedArgument == argumentNames[0] || parsedArgument == argumentNames[1])
+        {
+            if (argumentNames[1] != "")
+            {
+                _activeArguments[argumentNames[0]] = true;
+                _activeArguments[argumentNames[1]] = true;
+            }
+            else
+                _activeArguments[parsedArgument] = true;
+        }
+    }
+}
+
+std::vector<Argument> ArgumentParser::getOptionalArguments() const 
 {
     return _optionalArguments;
 }
 
-std::vector<Argument> ArgumentParser::getPositionalArguments()
+std::vector<Argument> ArgumentParser::getPositionalArguments() const 
 {
     return _positionalArguments;
 }
 
-std::map<std::string, bool> ArgumentParser::getActiveArguments()
+std::map<std::string, bool> ArgumentParser::getActiveArguments() const 
 {
     return _activeArguments;
 }
 
-std::string ArgumentParser::getProgramName()
+std::string ArgumentParser::getProgramName() const
 {
     return _programName;
 }
@@ -206,10 +240,10 @@ void ArgumentParser::programNameFromArgv(std::string argv)
     }
 }
 
-std::string Argument::generateSpaces(std::string name) const 
+std::string Argument::generateSpaces(std::string argumentName) const 
 {
     std::string result = "";
-    int length = helpLength - name.length();
+    int length = helpLength - argumentName.length();
     if (length<= 0)
     {
         throw std::invalid_argument("command name is over" +
@@ -235,18 +269,21 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         out << "[" << argument.getName().substr(0, comaPosition) << "]" << " ";
     }
 
-    //TODO:nargs changes the output
     for (auto& argument : arg_pars._positionalArguments)
     {
         if (argument.getNargs() > 1)
         {
-            if (argument.getMetavar().empty())
-                out << argument.getName() << " " << "[" << argument.getName() << " ...] ";
-            else
-                out << argument.getMetavar() << " " << "[" << argument.getMetavar() << " ...] ";
+            for (int i = 0; i < argument.getNargs(); i++)
+            {
+                if (argument.getMetavar().empty())
+                    out << argument.getName() << " ";
+                else
+                    out << argument.getMetavar() << " ";
+            }
         }
-        else
-            out << argument.getName() << " ";
+        
+        if(argument.getNargs() == 1)
+           out << argument.getName() << " ";
     }
     
     //out << arg_pars._usage;
@@ -262,7 +299,6 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         out << "positional arguments:" << "\n";
         for (const auto& argument : arg_pars._positionalArguments)
         {
-            //TODO:equal blank spaces between name and help for all args
             std::string spaces = argument.generateSpaces(argument.getName());
             out << " " << argument.getName() << spaces << argument.getHelp() << "\n";
         }
@@ -275,7 +311,6 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         out << "optional arguments:" << "\n";
         for (const auto& argument : arg_pars._optionalArguments)
         {
-            //TODO:equal blank spaces between name and help for all args
             std::string spaces = argument.generateSpaces(argument.getName());
             out << " " << argument.getName() << spaces << argument.getHelp() << "\n";
         }
@@ -293,10 +328,10 @@ Argument::Argument()
 
 }
 
-Argument& Argument::name(std::string arg1, std::string arg2)
+Argument& Argument::name(std::string shortArgumentName, std::string longArgumentName)
 {
-    _name.push_back(arg1);
-    _name.push_back(arg2);
+    _name.push_back(shortArgumentName);
+    _name.push_back(longArgumentName);
     return *this;
 }
 
@@ -305,6 +340,7 @@ Argument& Argument::action(std::string action)
 {
     actionCheck(action);
     _action = action;
+    performAcion(action);
     return *this;
 }
 
@@ -313,12 +349,6 @@ Argument& Argument::nargs(int nargs)
     if (nargs < 0)
         throw std::invalid_argument("nargs has to be a positive number");
     _nargs = nargs;
-    return *this;
-}
-
-Argument& Argument::constant(std::string constant)
-{
-    _constant = constant;
     return *this;
 }
 
@@ -341,6 +371,12 @@ Argument& Argument::metavar(std::string metavar)
     return *this;
 }
 
+Argument& Argument::argumentType(std::string argumentType)
+{
+    _type = argumentType;
+    return *this;
+}
+
 std::string Argument::getName() const 
 {
     std::string result;
@@ -354,11 +390,17 @@ std::string Argument::getName() const
     return result;
 }
 
+std::vector<std::string> Argument::getNames() const
+{
+    return _name;
+}
+
 std::string Argument::getHelp() const
 {
     return _help;
 }
 
+//TODO: add to _usage
 unsigned Argument::getNargs() const
 {
     return _nargs;
@@ -378,4 +420,58 @@ void Argument::actionCheck(const std::string action)
     }
     //TODO: maybe it is a differend throw
     throw std::invalid_argument("no such action exists");
+}
+
+//TODO: implement actions
+void Argument::performAcion(const std::string action)
+{
+    if (action == "store_const")
+    {
+        _parsedValues.push_back(_constant);
+    }
+    else if (action == "store_true")
+    {
+        _parsedValues.push_back(true);
+    }
+    else if (action == "store_false")
+    {
+        _parsedValues.push_back(false);
+    }
+    else if (action == "append")
+    {
+
+    }
+    else if (action == "append_const")
+    {
+
+    }
+    else if (action == "count")
+    {
+
+    }
+    else if (action == "help")
+    {
+        
+    }
+    else 
+    {
+        std::cerr << "Invalid action: " << action << std::endl;
+        std::exit(0);
+    }
+}
+
+void Argument::resolveArgumentTypes(std::string value)
+{
+    //no need for conversion if it is a string
+    if (_type == "string")
+    {
+        _parsedValues.push_back(value);
+    }
+
+    if (_type == "int")
+    {
+        //conversion fail?
+        int a = std::stoi(value);
+        _parsedValues.push_back(a);
+    }
 }
