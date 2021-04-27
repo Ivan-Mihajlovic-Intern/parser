@@ -22,11 +22,8 @@ public:
 
     //~ArgumentParser();
 
-    //optional and positional arguments
-    Argument& add_argument(std::string argumentName);
-
     //optional arguments
-    Argument& add_argument(std::string shortArgumentName, std::string longArgumentName);
+    Argument& add_argument(std::string shortArgumentName, std::string longArgumentName="");
 
     void parse_argument(int argc, char* argv[]);
     void parse_argument(std::vector<std::string> parsedAgruments);
@@ -42,32 +39,27 @@ public:
     bool isActive(std::string argumentName);
     void activateArguments(const std::string parsedArgument);
 
-    //getters for testing purpose
-    std::vector<Argument> getOptionalArguments() const;
-    std::vector<Argument> getPositionalArguments() const;
-    std::map<std::string, bool> getActiveArguments() const;
-    std::string getProgramName() const;
-
     template<typename T>
     std::vector<T> getValues(std::string argumentName) const;
-    
-
 
     friend std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars);
 
+    //for testing purpose
+protected:
+    std::vector<Argument> _optionalArguments;
+    std::vector<Argument> _positionalArguments;
+    std::map<std::string, bool> _activeArguments;
+    std::string _programName;
+
 private:
     void programNameFromArgv(std::string);
-    std::string _programName;
     std::string _usage = "";
     std::string _description;
     std::string _epilog;
-    std::vector<Argument> _optionalArguments;
-    std::vector<Argument> _positionalArguments;
     std::vector<ArgumentParser> _parents;
     std::string _prefixChars;
     std::string _fromFilePrefixChars;
     //if argument is called in command line bool becomes true, default false
-    std::map<std::string, bool> _activeArguments;
     
     
     //argumentDefault def:none
@@ -140,7 +132,7 @@ template<typename T>
 std::vector<T> ArgumentParser::getValues(std::string argumentName) const
 {
     std::vector<T> result;
-    for (const auto& arg : getPositionalArguments())
+    for (const auto& arg : _positionalArguments)
     {
         if (arg.getName() == argumentName)
         {

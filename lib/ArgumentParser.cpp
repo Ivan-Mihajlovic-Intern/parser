@@ -10,59 +10,59 @@ ArgumentParser::ArgumentParser()
 }
 
 //template<typename T>
-Argument& ArgumentParser::add_argument(std::string arg)
-{   
-    std::string msg = "";
-    //check if arg begins with '-' or not
-    if(arg[0] == '-')
-    {
-        _optionalArguments.push_back(Argument().name(arg, ""));
-        _activeArguments.insert({arg, false});
-        
-        msg = "[" + arg + "]";
-        addUsage(msg);
-        
-        return _optionalArguments.back();
-    }
-    else
-    {
-        _positionalArguments.push_back(Argument().name(arg, ""));
-        _activeArguments.insert({ arg, false });
-        //TODO: fix usage
-        msg += arg;
-        unsigned nargs = _positionalArguments.back()._nargs;
-        if (nargs != 0) {
-            msg += "[";
-            for (int i = 0; i < nargs; i++)
-            {
-                msg += arg + " ";
-            }
-            msg += "]";
-        }
-        addUsage(msg);
-        return _positionalArguments.back();
-    }
-}
-
-//template<typename T>
 Argument& ArgumentParser::add_argument(std::string shortParameterName, std::string longParameterName)
 {
-    //TODO: '-' can be redefined by user
-    if (shortParameterName[0] != '-' || longParameterName[0] != '-' 
-        || longParameterName[1] != '-')
-        throw std::invalid_argument("arguments have to begin with '-'");
-   
-   _optionalArguments.push_back(Argument().name(shortParameterName, longParameterName));
-   
-   //usage
-   std::string msg = "";
-   msg = "[" + shortParameterName + "]";
-   addUsage(msg);
 
-   //TODO:if arg1 is called from command line, agr2 needs to be true as well
-   _activeArguments.insert({shortParameterName, false});
-   _activeArguments.insert({longParameterName, false});
-    return _optionalArguments.back();
+    std::string msg = "";
+    //check if arg begins with '-' or not
+    if (longParameterName == "") 
+    {
+        if (shortParameterName[0] == '-')
+        {
+            _optionalArguments.push_back(Argument().name(shortParameterName, longParameterName));
+            _activeArguments.insert({shortParameterName, false });
+            
+            msg = "[" + shortParameterName + "]";
+            addUsage(msg);
+
+            return _optionalArguments.back();
+        }
+        else
+        {
+            _positionalArguments.push_back(Argument().name(shortParameterName, longParameterName));
+            _activeArguments.insert({shortParameterName, false });
+            //TODO: fix usage
+            msg += shortParameterName;
+            unsigned nargs = _positionalArguments.back()._nargs;
+            if (nargs != 0) {
+                msg += "[";
+                for (int i = 0; i < nargs; i++)
+                {
+                    msg += shortParameterName + " ";
+                }
+                msg += "]";
+            }
+            addUsage(msg);
+            return _positionalArguments.back();
+        }
+    }
+    else {
+        //TODO: '-' can be redefined by user
+        if (shortParameterName[0] != '-' || longParameterName[0] != '-'
+            || longParameterName[1] != '-')
+            throw std::invalid_argument("arguments have to begin with '-'");
+
+        _optionalArguments.push_back(Argument().name(shortParameterName, longParameterName));
+
+        //usage
+        msg = "[" + shortParameterName + "]";
+        addUsage(msg);
+
+        //TODO:if arg1 is called from command line, agr2 needs to be true as well
+        _activeArguments.insert({ shortParameterName, false });
+        _activeArguments.insert({ longParameterName, false });
+        return _optionalArguments.back();
+    }
 }
 
 void ArgumentParser::parse_argument(int argc, char* argv[])
@@ -206,26 +206,6 @@ void ArgumentParser::activateArguments(const std::string parsedArgument)
                 _activeArguments[parsedArgument] = true;
         }
     }
-}
-
-std::vector<Argument> ArgumentParser::getOptionalArguments() const 
-{
-    return _optionalArguments;
-}
-
-std::vector<Argument> ArgumentParser::getPositionalArguments() const 
-{
-    return _positionalArguments;
-}
-
-std::map<std::string, bool> ArgumentParser::getActiveArguments() const 
-{
-    return _activeArguments;
-}
-
-std::string ArgumentParser::getProgramName() const
-{
-    return _programName;
 }
 
 void ArgumentParser::programNameFromArgv(std::string argv)
