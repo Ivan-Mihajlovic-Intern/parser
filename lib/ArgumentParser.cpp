@@ -99,7 +99,8 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
     unsigned positionalArgumentsCount = 0;
     //help is allways the first optional argument
     auto firstOptional = _optionalArguments.front();
-    for (int j = 0; j < parsedAgruments.size(); ++j)
+    auto numOfParsedArguments = parsedAgruments.size();
+    for (int j = 0; j < numOfParsedArguments; ++j)
     {
         if (parsedAgruments[j] == firstOptional._name[0] 
             || parsedAgruments[j] == firstOptional._name[1])
@@ -119,28 +120,36 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
             }
             else
             {
-                std::cerr << "Invalid argument: " << parsedAgruments[j] << std::endl;
-                std::exit(0);
+                throw std::invalid_argument("Invalid argument: " + parsedAgruments[j]);
             }
         }
         else //positional arguments
         {
             if (_positionalArguments.size() < positionalArgumentsCount+1)
             {
-                std::cerr << "To many positional arguments: " << _positionalArguments.size()
-                    << " expected, but more were parsed"<< std::endl;
-                std::exit(0);
+                throw std::invalid_argument("To many positional arguments: " + std::to_string(_positionalArguments.size())
+                                            + " expected, but more were parsed");
             }
             auto args = _positionalArguments[positionalArgumentsCount]._nargs;
-            for (unsigned i = 0; i < args; i++)
-            { 
-                
+            unsigned i;
+            for (i=0; i < args; i++)
+            {
+                if (numOfParsedArguments == j)
+                {
+                    throw std::invalid_argument("To fiew positional arguments");
+                }
+
                 _positionalArguments[positionalArgumentsCount].resolveArgumentTypes(parsedAgruments[j]);
                 j++;
             }
+
             j--;
             positionalArgumentsCount++;
         }
+    }
+    if (positionalArgumentsCount + 1 < _positionalArguments.size())
+    {
+        throw std::invalid_argument("To fiew positional arguments");
     }
 }
 
@@ -224,11 +233,6 @@ std::string Argument::generateSpaces(std::string argumentName) const
 {
     std::string result = "";
     int length = helpLength - argumentName.length();
-    if (length<= 0)
-    {
-        throw std::invalid_argument("command name is over" +
-            std::to_string(helpLength) + "characters long");
-    }
 
     for (unsigned i = 0; i < length; i++)
     {
@@ -303,13 +307,20 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
 
 /***************************ARGUMENT********************************/
 
-Argument::Argument()
+Argument::Argument() : _nargs(0)
 {
 
 }
 
 Argument& Argument::name(std::string shortArgumentName, std::string longArgumentName)
 {
+    int lengthShort = helpLength - shortArgumentName.length();
+    int lengthLong = helpLength - longArgumentName.length();
+    if (lengthShort <= 0 || lengthLong <= 0)
+    {
+        throw std::invalid_argument("Command name is over" +
+            std::to_string(helpLength) + "characters long");
+    }
     _name.push_back(shortArgumentName);
     _name.push_back(longArgumentName);
     return *this;
@@ -327,14 +338,8 @@ Argument& Argument::action(std::string action)
 Argument& Argument::nargs(int nargs)
 {   
     if (nargs < 0)
-        throw std::invalid_argument("nargs has to be a positive number");
+        throw std::invalid_argument("Nargs has to be a positive number");
     _nargs = nargs;
-    return *this;
-}
-
-Argument& Argument::def(std::string def)
-{
-    _def = def;
     return *this;
 }
 
@@ -399,7 +404,7 @@ void Argument::actionCheck(const std::string action)
             return;
     }
     //TODO: maybe it is a differend throw
-    throw std::invalid_argument("no such action exists");
+    throw std::invalid_argument("Action: " + action + " is not a valid option");
 }
 
 //TODO: implement actions
@@ -435,8 +440,7 @@ void Argument::performAcion(const std::string action)
     }
     else 
     {
-        std::cerr << "Invalid action: " << action << std::endl;
-        std::exit(0);
+        //nothing        
     }
 }
 
@@ -447,11 +451,14 @@ void Argument::resolveArgumentTypes(std::string value)
     {
         _parsedValues.push_back(value);
     }
-
-    if (_type == "int")
+    else if (_type == "int")
     {
         //conversion fail?
         int a = std::stoi(value);
         _parsedValues.push_back(a);
+    }
+    else
+    {
+        throw std::invalid_argument("Not a right type");
     }
 }

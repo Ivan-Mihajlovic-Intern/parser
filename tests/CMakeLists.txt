@@ -17,6 +17,7 @@ file(GLOB ARGUMENT_PARSER_TESTS
 	test_add_argument.cpp
 	test_name.cpp
 	test_action.cpp
+	test_throws.cpp
 )
 
 add_executable(tester ${ARGUMENT_PARSER_TESTS})

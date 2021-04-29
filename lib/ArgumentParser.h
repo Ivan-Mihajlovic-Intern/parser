@@ -9,7 +9,7 @@
 #include <map>
 #include <variant>
 #include <typeinfo>
-
+#include <functional>
 
 
 class Argument;
@@ -77,7 +77,11 @@ public:
     Argument& name(std::string shortArgumentName, std::string longArgumentName);
     Argument& action(std::string action);
     Argument& nargs(int nargs);
-    Argument& def(std::string def);
+
+    template<typename T>
+    Argument& def(T value);
+
+
     Argument& help(std::string help);
     Argument& metavar(std::string metavar);
     Argument& argumentType(std::string argumentType);
@@ -112,7 +116,7 @@ public:
 private:
     std::vector<std::string> _name;
     std::string _action;
-    unsigned _nargs = 0;
+    unsigned _nargs;
     std::variant<std::string, int, bool> _constant;
     std::string _def;
     std::string _help;
@@ -145,6 +149,14 @@ std::vector<T> ArgumentParser::getValues(std::string argumentName) const
     }
 
     return result;
+}
+
+template<typename T>
+Argument& Argument::def(T value)
+{
+
+
+    return *this;
 }
 
 #endif // _ARGUMRNT_PARSER_HPP
