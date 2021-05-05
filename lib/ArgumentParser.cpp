@@ -7,6 +7,8 @@ ArgumentParser::ArgumentParser()
     //-h --help option by default
     _optionalArguments.push_back(Argument().name("-h", "--help")
         .help("shows this message and exits"));
+    _optionalArguments.push_back(Argument().name("-v", "--version")
+        .help("shows version and exits"));
 }
 
 //template<typename T>
@@ -147,6 +149,7 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
             positionalArgumentsCount++;
         }
     }
+
     if (positionalArgumentsCount + 1 < _positionalArguments.size())
     {
         throw std::invalid_argument("To fiew positional arguments");
