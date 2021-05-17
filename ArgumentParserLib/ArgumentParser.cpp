@@ -94,38 +94,55 @@ void ArgumentParser::parse_argument(int argc, char* argv[])
         parsedArguments.push_back(argv[i]);
     }
 
-    parse_argument(parsedArguments);
+    parse_argument(*this,parsedArguments);
 }
 
-void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
+void ArgumentParser::parse_argument(std::vector<std::string> parsedArguments)
 {
+    parse_argument(*this, parsedArguments);
+}
+
+void ArgumentParser::parse_argument(ArgumentParser& argparse, std::vector<std::string> parsedAgruments)
+{
+    //resetting all values to default
+    resetParsedValues(argparse);
+    resetActiveArguments(argparse);
     
     unsigned positionalArgumentsCount = 0;
+    unsigned optionalArgumentsCount = 0;
+    unsigned subParserCount = 0;
     //help is allways the first optional argument
-    auto firstOptional = _optionalArguments.front();
-    auto secondOptional = _optionalArguments[1];
+    auto firstOptional = argparse._optionalArguments.front();
+    //version is allways the second optional argument
+    auto secondOptional = argparse._optionalArguments[1];
     auto numOfParsedArguments = parsedAgruments.size();
     for (int j = 0; j < numOfParsedArguments; ++j)
     {
         //check if it is subparser
-        if (!_subParserCalled)
+        if (!argparse._subParserCalled)
         {
-            for (auto subParser : _subParsers)
+            for (auto subParser = argparse._subParsers.begin(); subParser!= argparse._subParsers.end(); subParser++)
             {
-                if (subParser._parserName == parsedAgruments[j])
+                if (subParser->_parserName == parsedAgruments[j])
                 {
-                    _subParserCalled = true;
-                    subParser.parse_argument(makeSubParserVector(parsedAgruments, j));
+                    argparse._subParserCalled = true;
+                    argparse._activeSubParsers[subParser->_parserName] = true;
+                    parse_argument(*subParser, makeSubParserVector(parsedAgruments, j));
+                    
+                    //argparse._subParsers.push_back(*subParser);
+                    //argparse._subParsers.erase(subParser);
+                    
                     //subparsed is added last so we exit the function when its parse is done
                     return;
                 }
+                subParserCount++;
             }
         }
 
         if (parsedAgruments[j] == firstOptional._name[0] 
             || parsedAgruments[j] == firstOptional._name[1])
         {
-            std::cout << *this;
+            std::cout << argparse;
             std::exit(0);
         }
 
@@ -140,27 +157,45 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
         //TODO: make a function for some of the code
         if (parsedAgruments[j][0] == '-') //optional arguments
         {
-            auto search = _activeArguments.find(parsedAgruments[j]);
-            if(search != _activeArguments.end())
+            auto search = argparse._activeArguments.find(parsedAgruments[j]);
+            if(search != argparse._activeArguments.end())
             { 
-                activateArguments(parsedAgruments[j]);
+                activateArguments(argparse, parsedAgruments[j]);
             }
             else
             {
                 throw std::invalid_argument("Invalid argument: " + parsedAgruments[j]);
             }
+
+            Argument& currentOptionalArgument = argparse.getArgument(parsedAgruments[j]);
+            auto args = currentOptionalArgument._nargs;
+            if (args > 0)
+            {
+                unsigned i;
+                for (i = 0; i < args; i++)
+                {
+                    if (numOfParsedArguments == j)
+                    {
+                        throw std::invalid_argument("To fiew positional arguments");
+                    }
+
+                    j++;
+                    currentOptionalArgument.resolveArgumentTypes(parsedAgruments[j]);
+                }
+
+                //j--;
+            }
+            optionalArgumentsCount++;
         }
         else //positional arguments
         {
-            if (_positionalArguments.size() < positionalArgumentsCount+1)
+            if (argparse._positionalArguments.size() < positionalArgumentsCount+1)
             {
-                std::cout << _parserName << ": "<< this->_positionalArguments.size() << std::endl;
                 throw std::invalid_argument("To many positional arguments: " + std::to_string(_positionalArguments.size())
                                             + " expected, but more were parsed");
             }
-            std::cout << _parserName << ": " << this->_positionalArguments.size() << std::endl;
-
-            auto args = _positionalArguments[positionalArgumentsCount]._nargs;
+            
+            auto args = argparse._positionalArguments[positionalArgumentsCount]._nargs;
             unsigned i;
             for (i=0; i < args; i++)
             {
@@ -169,7 +204,7 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
                     throw std::invalid_argument("To fiew positional arguments");
                 }
 
-                _positionalArguments[positionalArgumentsCount].resolveArgumentTypes(parsedAgruments[j]);
+                argparse._positionalArguments[positionalArgumentsCount].resolveArgumentTypes(parsedAgruments[j]);
                 j++;
             }
 
@@ -178,7 +213,7 @@ void ArgumentParser::parse_argument(std::vector<std::string> parsedAgruments)
         }
     }
     
-    if (positionalArgumentsCount + 1 < _positionalArguments.size())
+    if (positionalArgumentsCount + 1 < argparse._positionalArguments.size())
     {
         throw std::invalid_argument("To fiew positional arguments");
     }
@@ -194,6 +229,12 @@ ArgumentParser& ArgumentParser::usage(std::string usage)
 ArgumentParser& ArgumentParser::prog(std::string programName)
 {
     _programName = programName;
+    return *this;
+}
+
+ArgumentParser& ArgumentParser::help(std::string help)
+{
+    _help = help;
     return *this;
 }
 
@@ -224,7 +265,39 @@ ArgumentParser& ArgumentParser::from_file_prefix_chars(std::string fromFilePrefi
 ArgumentParser& ArgumentParser::add_parser(std::string parserName)
 {
     _subParsers.push_back(ArgumentParser(parserName));
+    _activeSubParsers.insert({ parserName, false });
     return _subParsers.back();
+}
+
+ArgumentParser& ArgumentParser::subParsersTitle(std::string subParserTitle)
+{
+    _subParsersTitle = subParserTitle;
+    return *this;
+}
+
+ArgumentParser& ArgumentParser::subParsersDescription(std::string subParserDescription)
+{
+    _subParsersDescription = subParserDescription;
+    return *this;
+}
+
+ArgumentParser& ArgumentParser::subParsersHelp(std::string subParserHelp)
+{
+    _subParsersHelp = subParserHelp;
+    return *this;
+}
+
+ArgumentParser& ArgumentParser::getSubParser(std::string parserName)
+{
+    for (auto& subParser : _subParsers)
+    {
+        if (subParser._parserName == parserName)
+        {
+            return subParser;
+        }
+    }
+
+    throw std::invalid_argument("No such subparser exists");
 }
 
 void ArgumentParser::addUsage(std::string msg)
@@ -234,25 +307,122 @@ void ArgumentParser::addUsage(std::string msg)
 
 bool ArgumentParser::isActive(std::string argumentName)
 {
-    return _activeArguments[argumentName];
+    //if argument and subparser have the same name isActive would not work as inteded
+    if (_activeArguments[argumentName] && _activeSubParsers[argumentName])
+        throw std::invalid_argument("Argument and subparser of same name are parsed");
+
+    return _activeArguments[argumentName] || _activeSubParsers[argumentName];
 }
 
-void ArgumentParser::activateArguments(const std::string parsedArgument)
+void ArgumentParser::activateArguments(ArgumentParser& parser,const std::string parsedArgument)
 {
-    for (const auto& argument : _optionalArguments)
+    for (const auto& argument : parser._optionalArguments)
     {
         std::vector<std::string> argumentNames = argument.getNames();
         if (parsedArgument == argumentNames[0] || parsedArgument == argumentNames[1])
         {
             if (argumentNames[1] != "")
             {
-                _activeArguments[argumentNames[0]] = true;
-                _activeArguments[argumentNames[1]] = true;
+                parser._activeArguments[argumentNames[0]] = true;
+                parser._activeArguments[argumentNames[1]] = true;
             }
             else
-                _activeArguments[parsedArgument] = true;
+                parser._activeArguments[parsedArgument] = true;
+
+            return;
         }
     }
+}
+
+Argument& ArgumentParser::getArgument(std::string argumentName)
+{
+    for (auto& argument : _optionalArguments)
+    {
+        auto names = argument.getNames();
+        if (names[0] == argumentName || names[1] == argumentName)
+            return argument;
+    }
+
+    for (auto& argument : _positionalArguments)
+    {
+        if (argument.getName() == argumentName)
+            return argument;
+    }
+
+    throw std::invalid_argument("No such argument exists");
+}
+
+void ArgumentParser::resetParsedValues(ArgumentParser& parser)
+{
+    for (auto& argument : parser._positionalArguments)
+    {
+        /*for (int i = 0; i < argument._parsedValues.size(); i++)
+        {
+            argument._parsedValues.pop_back();
+        }*/
+        argument._parsedValues.clear();
+        if (argument._action == "store_const")
+        {
+            argument._parsedValues.push_back(argument._constant);
+        }
+        else if (argument._action == "store_true")
+        {
+            argument._parsedValues.push_back(true);
+        }
+        else if (argument._action == "store_false")
+        {
+            argument._parsedValues.push_back(false);
+        }
+        else
+        {
+            //nothing
+        }
+    }
+
+    for (auto& argument : parser._optionalArguments)
+    {
+        /*for (int i = 0; i < argument._parsedValues.size(); i++)
+        {
+            argument._parsedValues.pop_back();
+        }*/
+        argument._parsedValues.clear();
+        if (argument._action == "store_const")
+        {
+            argument._parsedValues.push_back(argument._constant);
+        }
+        else if (argument._action == "store_true")
+        {
+            argument._parsedValues.push_back(true);
+        }
+        else if (argument._action == "store_false")
+        {
+            argument._parsedValues.push_back(false);
+        }
+        else
+        {
+            //nothing
+        }
+    }
+
+}
+
+void ArgumentParser::resetActiveArguments(ArgumentParser& parser)
+{
+    /*for (const auto& argument : parser._optionalArguments)
+    {
+        std::vector<std::string> argumentNames = argument.getNames();
+            if (argumentNames[1] != "")
+            {
+                parser._activeArguments[argumentNames[0]] = false;
+                parser._activeArguments[argumentNames[1]] = false;
+            }
+            else
+                parser._activeArguments[argumentNames[1]] = false;
+
+    }*/
+
+    for (auto& [_, v] : parser._activeArguments)
+        v = false;
 }
 
 void ArgumentParser::programNameFromArgv(std::string argv)
@@ -277,31 +447,17 @@ std::vector<std::string> ArgumentParser::makeSubParserVector(std::vector<std::st
     return subParserArguments;
 }
 
-std::string Argument::generateSpaces(std::string argumentName) const 
-{
-    std::string result = "";
-    int length = helpLength - argumentName.length();
-
-    for (unsigned i = 0; i < length; i++)
-    {
-        result += " ";
-    }
-
-    return result;
-}
-
-
 /********************OPERATORS_FOR_ARGUMENT_PARSER******************/
 std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
 {
     out << "Usage: " << arg_pars._programName << " ";
-    
+
     for (const auto& argument : arg_pars._optionalArguments)
     {
         std::size_t comaPosition = argument.getName().find(',');
         out << "[" << argument.getName().substr(0, comaPosition) << "]" << " ";
     }
-
+    
     for (auto& argument : arg_pars._positionalArguments)
     {
         if (argument.getNargs() > 1)
@@ -314,11 +470,23 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
                     out << argument.getMetavar() << " ";
             }
         }
-        
+
         if(argument.getNargs() == 1)
            out << argument.getName() << " ";
     }
-    
+
+    out << "{";
+    std::string tmp;
+    for (auto& subParser : arg_pars._subParsers)
+    {
+        tmp +=  subParser._parserName + ",";
+        
+    }
+
+    tmp = tmp.substr(0, tmp.size() - 1);
+    out << tmp;
+    out << "}";
+
     //out << arg_pars._usage;
     out << "\n\n";
 
@@ -327,9 +495,16 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         out << arg_pars._description << "\n\n";
     }
 
-    if (!arg_pars._positionalArguments.empty())
+    if (!arg_pars._positionalArguments.empty() || 
+        (!arg_pars._subParsers.empty() && arg_pars._subParsersTitle.empty()))
     {
         out << "positional arguments:" << "\n";
+        
+        if (!arg_pars._subParsers.empty())
+        {
+            out << arg_pars.printAllSubParsers(arg_pars._subParsers);
+        }
+
         for (const auto& argument : arg_pars._positionalArguments)
         {
             std::string spaces = argument.generateSpaces(argument.getName());
@@ -351,8 +526,64 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         out << "\n";
     }
 
+    if (!arg_pars._subParsersTitle.empty() || !arg_pars._subParsersDescription.empty())
+    {
+        out << "\n";
+        if (!arg_pars._subParsersTitle.empty())
+        {
+            out << arg_pars._subParsersTitle << ":\n";
+        }
+        else
+        {
+            out << "subcommands" << ":\n";
+        }
+
+        if (!arg_pars._subParsersDescription.empty())
+        {
+            out << arg_pars._subParsersDescription << "\n";
+        }
+
+        out << arg_pars.printAllSubParsers(arg_pars._subParsers);
+
+        for (auto& subParser : arg_pars._subParsers)
+        {
+            out << subParser.printSubParser(subParser);
+        }
+
+    }
+
     return out;
 }
+
+
+/***************************SUBPARSER*********************************/
+
+
+std::string ArgumentParser::printAllSubParsers(std::list<ArgumentParser> subParsers) const 
+{
+    std::string result = " {";
+    for (const auto& subParer : subParsers)
+    {
+        result += subParer._parserName + ",";
+    }
+    result = result.substr(0, result.size() - 1);
+    result += "}";
+    
+    std::string spaces(helpLength - result.length() + 1, ' ');
+    result +=  spaces + _subParsersHelp + "\n";
+
+    return result;
+}
+
+std::string ArgumentParser::printSubParser(const ArgumentParser& subParser) const 
+{
+    std::string result;
+    std::string spaces(helpLength - subParser._parserName.length(), ' ');
+    result += " " + subParser._parserName + spaces + subParser._help + "\n";
+
+    return result;
+}
+
 
 /***************************ARGUMENT********************************/
 
@@ -445,6 +676,12 @@ std::string Argument::getMetavar() const
     return _metavar;
 }
 
+std::string Argument::generateSpaces(std::string argumentName) const
+{
+    std::string result (helpLength-argumentName.length(), ' ');
+    return result;
+}
+
 void Argument::actionCheck(const std::string action)
 {
     for (int i = 0; i != allowedActions.size(); i++)
@@ -461,6 +698,7 @@ void Argument::performAcion(const std::string action)
 {
     if (action == "store_const")
     {
+        
         _parsedValues.push_back(_constant);
     }
     else if (action == "store_true")

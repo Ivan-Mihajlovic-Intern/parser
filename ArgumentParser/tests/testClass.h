@@ -34,7 +34,7 @@ public:
 		return _programName;
 	}
 
-	std::vector<ArgumentParser> getSubParsers() const
+	std::list<ArgumentParser> getSubParsers() const
 	{
 		return _subParsers;
 	}

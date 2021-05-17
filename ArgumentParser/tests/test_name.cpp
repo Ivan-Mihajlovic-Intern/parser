@@ -38,7 +38,7 @@ SCENARIO("Argument names", "[name]")
 
 		WHEN("Argument 'integers' is added")
 		{
-			parser.add_argument("integers").nargs(3).argumentType("int");
+			parser.add_argument("integers").nargs(3).argumentType<int>();
 
 			THEN("size of _name for that argument is two, second string being empty")
 			{

@@ -44,15 +44,13 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 				REQUIRE(expected == result);
 			}
 		}
-
-		//WHEN("argc < 1") then error
 	}
 
 	GIVEN("number of arguments and argument type")
 	{
 		ArgumentTest parser;
-		parser.add_argument("integers").nargs(3).argumentType("int");
-		parser.add_argument("strings").nargs(2).argumentType("string");
+		parser.add_argument("integers").nargs(3).argumentType<int>();
+		parser.add_argument("strings").nargs(2).argumentType<std::string>();
 
 		WHEN("three integers are parsed")
 		{
@@ -116,6 +114,67 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 			{
 				const auto result = parser.getValues<int>("integers").size();
 				const auto expected = 0;
+
+				REQUIRE(expected == result);
+			}
+		}
+	}
+
+	GIVEN("Argument --sum and some integers")
+	{
+		ArgumentTest parser;
+		parser.add_argument("-s", "--sum").nargs(4).argumentType<int>();
+
+		WHEN("'--sum 1 2 3 4' is parsed")
+		{
+			parser.parse_argument({ "--sum", "1", "2", "3", "4" });
+			THEN("sum of integers is 10")
+			{
+				const auto integers = parser.getValues<int>("--sum");
+				const auto expected = 10;
+				int result = std::accumulate(integers.begin(), integers.end(), 0);
+
+				REQUIRE(expected == result);
+			}
+		}
+	}
+
+	GIVEN("Argument --max and some integers")
+	{
+		ArgumentTest parser;
+		parser.add_argument("-M", "--max").nargs(6).argumentType<int>();
+
+		WHEN("'--max 1 2 3 4 1 3' is parsed")
+		{
+			parser.parse_argument({ "--max", "1", "2", "3", "4", "1", "3" });
+			THEN("max element is 4")
+			{
+				const auto integers = parser.getValues<int>("--max");
+				const auto expected = 4;
+				const auto position = std::max_element(integers.begin(), integers.end());
+
+				int result = integers[std::distance(integers.begin(), position)];
+
+				REQUIRE(expected == result);
+			}
+		}
+	}
+
+	GIVEN("Argument --min and some integers")
+	{
+		ArgumentTest parser;
+		parser.add_argument("-m", "--min").nargs(4).argumentType<int>();
+
+		WHEN("'--min 2 3 1 4' is parsed")
+		{
+			parser.parse_argument({ "--min", "2", "3", "1", "4" });
+			THEN("min element is 1")
+			{
+				const auto integers = parser.getValues<int>("--min");
+				const auto expected = 1;
+				const auto position = std::min_element(integers.begin(), integers.end());
+
+				int result = integers[std::distance(integers.begin(), position)];
 
 				REQUIRE(expected == result);
 			}
