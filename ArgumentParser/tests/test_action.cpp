@@ -6,11 +6,11 @@ SCENARIO("Actions", "[action]")
 	GIVEN("Argument parser")
 	{
 		ArgumentTest parser;
-
+		parser.exitOnError(false);
 		WHEN("argument has constant and action is set to 'sore_const'")
 		{
-			parser.add_argument("integer").constant<int>(5).action("store_const");
-			parser.parse_argument({});
+			parser.addArgument("integer").constant<int>(5).action("store_const");
+			parser.parseArgument({});
 
 			THEN("value of 'integer' is the value passed by constant")
 			{
@@ -23,8 +23,8 @@ SCENARIO("Actions", "[action]")
 
 		WHEN("argument has constant and action is set to 'sore_const'")
 		{
-			parser.add_argument("string").constant<std::string>("value").action("store_const");
-			parser.parse_argument({});
+			parser.addArgument("string").constant<std::string>("value").action("store_const");
+			parser.parseArgument({});
 
 			THEN("value of 'string' is the value passed by constant")
 			{
@@ -37,8 +37,8 @@ SCENARIO("Actions", "[action]")
 
 		WHEN("action is set to 'sore_true'")
 		{
-			parser.add_argument("boolean").action("store_true");
-			parser.parse_argument({});
+			parser.addArgument("boolean").action("store_true");
+			parser.parseArgument({});
 
 			THEN("value of 'boolean' is set to true")
 			{
@@ -51,8 +51,8 @@ SCENARIO("Actions", "[action]")
 
 		WHEN("action is set to 'sore_false'")
 		{
-			parser.add_argument("boolean").action("store_false");
-			parser.parse_argument({});
+			parser.addArgument("boolean").action("store_false");
+			parser.parseArgument({});
 
 			THEN("value of 'boolean' is set to false")
 			{
@@ -67,7 +67,7 @@ SCENARIO("Actions", "[action]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("-i", "--info").action("invalid_action"));
+				REQUIRE_THROWS(parser.addArgument("-i", "--info").action("invalid_action"));
 			}
 		}
 	}

@@ -2,11 +2,12 @@
 #include "testClass.h"
 
 
-SCENARIO("Creating the ArgumentParser", "[add_argument]")
+SCENARIO("Creating the ArgumentParser", "[addArgument]")
 {
 	GIVEN("ArgumentParser")
 	{
 		ArgumentTest parser;
+		parser.exitOnError(false);
 
 		WHEN("No arguments are added")
 		{
@@ -21,7 +22,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 
 		WHEN("One oprional argument is added ")
 		{
-			parser.add_argument("-i");
+			parser.addArgument("-i");
 
 			THEN("Argument is in vector optionalArguments")
 			{
@@ -34,7 +35,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 
 		WHEN("Two oprional arguments are added")
 		{
-			parser.add_argument("-i", "--info");
+			parser.addArgument("-i", "--info");
 
 			THEN("Argument is in vector optionalArguments")
 			{
@@ -47,7 +48,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 
 		WHEN("One positional argument is added")
 		{
-			parser.add_argument("integers");
+			parser.addArgument("integers");
 
 			THEN("Argument is in vector positionalArguments")
 			{
@@ -62,7 +63,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("integers").nargs(-5));
+				REQUIRE_THROWS(parser.addArgument("integers").nargs(-5));
 			}
 		}
 
@@ -70,7 +71,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("--longParsedArgumentName"));
+				REQUIRE_THROWS(parser.addArgument("--longParsedArgumentName"));
 			}
 		}
 
@@ -78,7 +79,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("-longParsedArgumentName", "--shortName"));
+				REQUIRE_THROWS(parser.addArgument("-longParsedArgumentName", "--shortName"));
 			}
 		}
 
@@ -86,7 +87,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("-shortName", "--longParsedArgumentName"));
+				REQUIRE_THROWS(parser.addArgument("-shortName", "--longParsedArgumentName"));
 			}
 		}
 
@@ -94,7 +95,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("i", "--info"));
+				REQUIRE_THROWS(parser.addArgument("i", "--info"));
 			}
 		}
 
@@ -102,7 +103,7 @@ SCENARIO("Creating the ArgumentParser", "[add_argument]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.add_argument("-i", "info"));
+				REQUIRE_THROWS(parser.addArgument("-i", "info"));
 			}
 		}
 	}
