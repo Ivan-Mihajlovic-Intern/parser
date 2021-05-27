@@ -2,16 +2,16 @@
 #include "testClass.h"
 
 
-SCENARIO("Adding subparsers", "[add_parser]")
+SCENARIO("Adding subparsers", "[addParser]")
 {
 	GIVEN("One subParser")
 	{
 		ArgumentTest parser;
-		ArgumentParser subParser = parser.add_parser("subparser");
+		ArgumentParser subParser = parser.addParser("subparser");
 
 		WHEN("One positional argument named 'positional' is added")
 		{
-			subParser.add_argument("positional").nargs(3).argumentType<int>();
+			subParser.addArgument("positional").nargs(3).argumentType<int>();
 			
 			THEN("The name of the first positional arument is 'positional'")
 			{
@@ -51,7 +51,7 @@ SCENARIO("Adding subparsers", "[add_parser]")
 
 		WHEN("One optional argument named '--info' is added")
 		{
-			subParser.add_argument("-i", "--info").help("some information is displayed");
+			subParser.addArgument("-i", "--info").help("some information is displayed");
 
 			THEN("The name of the last optional arument is '-i, --info'")
 			{
@@ -68,11 +68,11 @@ SCENARIO("Adding subparsers", "[add_parser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& commit = parser.add_parser("commit");
+		ArgumentParser& commit = parser.addParser("commit");
 		
 		WHEN("'commit' is parsed'")
 		{
-			parser.parse_argument({ "commit" });
+			parser.parseArgument({ "commit" });
 			THEN("isActive returns true")
 			{
 				auto expected = true;
@@ -88,12 +88,12 @@ SCENARIO("Adding subparsers", "[add_parser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& commit = parser.add_parser("commit");
-		commit.add_argument("-m", "--message").help("adds a message");
+		ArgumentParser& commit = parser.addParser("commit");
+		commit.addArgument("-m", "--message").help("adds a message");
 		
 		WHEN("'commit' and '-m' is parsed")
 		{
-			parser.parse_argument({ "commit", "-m" });
+			parser.parseArgument({ "commit", "-m" });
 			THEN("isActive returns true for both '-m' and '--mesage'")
 			{
 				auto expected = true;
@@ -111,22 +111,22 @@ SCENARIO("Adding subparsers", "[add_parser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& commit = parser.add_parser("commit");
-		ArgumentParser& pull = parser.add_parser("pull");
+		ArgumentParser& commit = parser.addParser("commit");
+		ArgumentParser& pull = parser.addParser("pull");
 
-		commit.add_argument("-m", "--message")
+		commit.addArgument("-m", "--message")
 			  .help("adds a message to a current commit").nargs(1).argumentType<std::string>();
-		commit.add_argument("-a", "--all").help("add all modified files");
+		commit.addArgument("-a", "--all").help("add all modified files");
 		
 		//commit  ""
 
-		pull.add_argument("-q", "--quiet").help("minimal output during fetching");
-		pull.add_argument("-v", "--verbose").help("passes --verbose to git-feth and git-merge");
+		pull.addArgument("-q", "--quiet").help("minimal output during fetching");
+		pull.addArgument("-ve", "--verbose").help("passes --verbose to git-feth and git-merge");
 		
 		WHEN("'commit -m inital commit' is parsed")
 		{
 				
-			parser.parse_argument({ "commit", "-m", "inital commit" });
+			parser.parseArgument({ "commit", "-m", "inital commit" });
 			
 			THEN("isActive returns true for 'commit' and returns false for 'pull'")
 			{
@@ -150,7 +150,7 @@ SCENARIO("Adding subparsers", "[add_parser]")
 		WHEN("'pull' is parsed")
 		{
 
-			parser.parse_argument({ "pull", "-q" });
+			parser.parseArgument({ "pull", "-q" });
 
 			THEN("isActive returns true for 'pull' and returns false for 'commit'")
 			{
@@ -169,19 +169,19 @@ SCENARIO("Adding subparsers", "[add_parser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& config = parser.add_parser("config");
-		ArgumentParser& global = config.add_parser("--global");
+		ArgumentParser& config = parser.addParser("config");
+		ArgumentParser& global = config.addParser("--global");
 
-		global.add_argument("--user.name")
+		global.addArgument("--user.name")
 			.help("adds user name to git").nargs(1).argumentType<std::string>();
-		global.add_argument("--user.mail").
+		global.addArgument("--user.mail").
 			help("adds user email to git").nargs(1).argumentType<std::string>();
 
 
 		WHEN("'config --global user.name userName'")
 		{
 
-			parser.parse_argument({ "config", "--global", "--user.name", "userName" });
+			parser.parseArgument({ "config", "--global", "--user.name", "userName" });
 
 			THEN("isActive returns true for 'commit' and '--global'")
 			{
@@ -205,7 +205,7 @@ SCENARIO("Adding subparsers", "[add_parser]")
 		WHEN("'config --global user.main userEmail'")
 		{
 
-			parser.parse_argument({ "config", "--global", "--user.mail", "userEmail" });
+			parser.parseArgument({ "config", "--global", "--user.mail", "userEmail" });
 
 			THEN("isActive returns true for 'config' and '--global'")
 			{
@@ -231,17 +231,17 @@ SCENARIO("Adding subparsers", "[add_parser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& checkout = parser.add_parser("checkout").help("switches to a differet brnach");
+		ArgumentParser& checkout = parser.addParser("checkout").help("switches to a differet brnach");
 		
-		checkout.add_argument("-b")
+		checkout.addArgument("-b")
 			.help("adds a branch").nargs(1).argumentType<std::string>();
-		checkout.add_argument("-B")
+		checkout.addArgument("-B")
 			.help("branch is created if it does not exist, otherwise branch is reset").nargs(1).argumentType<std::string>();
 
 		WHEN("'checkout -b newBranch'")
 		{
 
-			parser.parse_argument({ "checkout", "-b", "newBranch" });
+			parser.parseArgument({ "checkout", "-b", "newBranch" });
 
 			THEN("isActive returns true for 'checkout' and '-b'")
 			{
@@ -265,7 +265,7 @@ SCENARIO("Adding subparsers", "[add_parser]")
 		WHEN("'checkout -B newBranch'")
 		{
 
-			parser.parse_argument({ "checkout", "-B", "newBranch" });
+			parser.parseArgument({ "checkout", "-B", "newBranch" });
 
 			THEN("isActive returns true for 'checkout' and '-B'")
 			{

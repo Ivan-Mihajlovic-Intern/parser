@@ -9,7 +9,7 @@ SCENARIO("Argument names", "[name]")
 		
 		WHEN("Argument '-i' is added")
 		{
-			parser.add_argument("-i");
+			parser.addArgument("-i");
 
 			THEN("size of _name for that argument is two, second string being empty")
 			{
@@ -25,7 +25,7 @@ SCENARIO("Argument names", "[name]")
 
 		WHEN("Arguments '-o' and '--option' are added")
 		{
-			parser.add_argument("-o", "--option");
+			parser.addArgument("-o", "--option");
 
 			THEN("size of _name for that argument is two")
 			{
@@ -38,7 +38,7 @@ SCENARIO("Argument names", "[name]")
 
 		WHEN("Argument 'integers' is added")
 		{
-			parser.add_argument("integers").nargs(3).argumentType<int>();
+			parser.addArgument("integers").nargs(3).argumentType<int>();
 
 			THEN("size of _name for that argument is two, second string being empty")
 			{

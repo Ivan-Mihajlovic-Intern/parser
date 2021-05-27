@@ -16,27 +16,27 @@ public:
 
 	std::vector<Argument> getOptionalArguments() const 
 	{
-		return _optionalArguments;
+		return m_optionalArguments;
 	}
 
 	std::vector<Argument> getPositionalArguments() const
 	{
-		return _positionalArguments;
+		return m_positionalArguments;
 	}
 
 	std::map<std::string, bool> getActiveArguments() const
 	{
-		return _activeArguments;
+		return m_activeArguments;
 	}
 
 	std::string getProgramName() const
 	{
-		return _programName;
+		return m_programName;
 	}
 
 	std::list<ArgumentParser> getSubParsers() const
 	{
-		return _subParsers;
+		return m_subParsers;
 	}
 
 private:

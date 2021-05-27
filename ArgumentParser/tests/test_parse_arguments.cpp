@@ -1,17 +1,17 @@
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Parsing arguments", "[parse_arguments]")
+SCENARIO("Parsing arguments", "[parseArguments]")
 {
 	GIVEN("Arguments '-i', '-o' and '--option'")
 	{
 		ArgumentTest parser;
-		parser.add_argument("-i");
-		parser.add_argument("-o", "--option");
+		parser.addArgument("-i");
+		parser.addArgument("-o", "--option");
 		
 		WHEN("Argument '-i' is parsed")
 		{
-			parser.parse_argument({ "-i" });
+			parser.parseArgument({ "-i" });
 			THEN("activeValues for that argument is set to true")
 			{
 				const auto expected = true;
@@ -23,7 +23,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 
 		WHEN("Argument '-o' is parsed")
 		{
-			parser.parse_argument({ "-o" });
+			parser.parseArgument({ "-o" });
 			THEN("activeValues for '--option' argument is allso set to true")
 			{
 				const auto expected = true;
@@ -35,7 +35,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 
 		WHEN("Argument --option is parsed")
 		{
-			parser.parse_argument({ "--option" });
+			parser.parseArgument({ "--option" });
 			THEN("activeValues for '-o' argument is allso set to true")
 			{
 				const auto expected = true;
@@ -49,12 +49,13 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 	GIVEN("number of arguments and argument type")
 	{
 		ArgumentTest parser;
-		parser.add_argument("integers").nargs(3).argumentType<int>();
-		parser.add_argument("strings").nargs(2).argumentType<std::string>();
+		parser.exitOnError(false);
+		parser.addArgument("integers").nargs(3).argumentType<int>();
+		parser.addArgument("strings").nargs(2).argumentType<std::string>();
 
 		WHEN("three integers are parsed")
 		{
-			parser.parse_argument({ "1","2","7","string1","string2" });
+			parser.parseArgument({ "1","2","7","string1","string2" });
 			THEN("size of integers argument is three")
 			{
 				const auto result = parser.getValues<int>("integers").size();
@@ -66,7 +67,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 
 		WHEN("two strings are parsed")
 		{
-			parser.parse_argument({ "1","2","7","string1","string2" });
+			parser.parseArgument({ "1","2","7","string1","string2" });
 			THEN("size of strings argument is two")
 			{
 				const auto result = parser.getValues<std::string>("strings").size();
@@ -80,7 +81,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.parse_argument({ "1", "2", "3", "4", "5", "6" }));
+				REQUIRE_THROWS(parser.parseArgument({ "1", "2", "3", "4", "5", "6" }));
 			}
 		}
 
@@ -88,7 +89,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.parse_argument({ "1", "2", "3", "4" }));
+				REQUIRE_THROWS(parser.parseArgument({ "1", "2", "3", "4" }));
 			}
 		}
 
@@ -96,7 +97,7 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 		{
 			THEN("error is thrown")
 			{
-				REQUIRE_THROWS(parser.parse_argument({ "--option" }));
+				REQUIRE_THROWS(parser.parseArgument({ "--option" }));
 			}
 		}
 
@@ -105,11 +106,11 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 	GIVEN("no number of arguments nor argument type")
 	{
 		ArgumentTest parser;
-		parser.add_argument("integers");
+		parser.addArgument("integers");
 
 		WHEN("empty string is parsed")
 		{
-			parser.parse_argument({ });
+			parser.parseArgument({ });
 			THEN("size of integers argument is zero")
 			{
 				const auto result = parser.getValues<int>("integers").size();
@@ -123,11 +124,11 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 	GIVEN("Argument --sum and some integers")
 	{
 		ArgumentTest parser;
-		parser.add_argument("-s", "--sum").nargs(4).argumentType<int>();
+		parser.addArgument("-s", "--sum").nargs(4).argumentType<int>();
 
 		WHEN("'--sum 1 2 3 4' is parsed")
 		{
-			parser.parse_argument({ "--sum", "1", "2", "3", "4" });
+			parser.parseArgument({ "--sum", "1", "2", "3", "4" });
 			THEN("sum of integers is 10")
 			{
 				const auto integers = parser.getValues<int>("--sum");
@@ -142,11 +143,11 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 	GIVEN("Argument --max and some integers")
 	{
 		ArgumentTest parser;
-		parser.add_argument("-M", "--max").nargs(6).argumentType<int>();
+		parser.addArgument("-M", "--max").nargs(6).argumentType<int>();
 
 		WHEN("'--max 1 2 3 4 1 3' is parsed")
 		{
-			parser.parse_argument({ "--max", "1", "2", "3", "4", "1", "3" });
+			parser.parseArgument({ "--max", "1", "2", "3", "4", "1", "3" });
 			THEN("max element is 4")
 			{
 				const auto integers = parser.getValues<int>("--max");
@@ -163,11 +164,11 @@ SCENARIO("Parsing arguments", "[parse_arguments]")
 	GIVEN("Argument --min and some integers")
 	{
 		ArgumentTest parser;
-		parser.add_argument("-m", "--min").nargs(4).argumentType<int>();
+		parser.addArgument("-m", "--min").nargs(4).argumentType<int>();
 
 		WHEN("'--min 2 3 1 4' is parsed")
 		{
-			parser.parse_argument({ "--min", "2", "3", "1", "4" });
+			parser.parseArgument({ "--min", "2", "3", "1", "4" });
 			THEN("min element is 1")
 			{
 				const auto integers = parser.getValues<int>("--min");
