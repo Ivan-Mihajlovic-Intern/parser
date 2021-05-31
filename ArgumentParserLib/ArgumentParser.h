@@ -12,6 +12,7 @@
 #include <functional>
 #include <numeric>
 #include <algorithm>
+#include <sstream>
 
 class Argument;
 class SubParsers;
@@ -46,8 +47,12 @@ public:
     ///         .help("sum the integers")
     /// \endcode
     /// </summary>
-    /// <param name="shortArgumentName"></param>
-    /// <param name="longArgumentName">="" (by default)</param>
+    /// <param name="shortArgumentName">This parameter holds eather full name of a positional argument
+    /// or shortcut of a optional argument(shortcut of '--foo' can be '-f'), it needs to begin with '-'.
+    /// </param>
+    /// <param name="longArgumentName">This parameter is usually empty for posiional arguments. For optional
+    /// arguments it contains the full name of an argument, it needs to begin with '--'.
+    /// </param>
     /// <returns>Reference to newly created Argument object</returns>
     Argument& addArgument(std::string shortArgumentName, std::string longArgumentName="");
 
@@ -58,6 +63,8 @@ public:
     /// parser.parseArgs(argc, argv);
     /// \endcode
     /// </summary>
+    /// <param name="argc">Argument count of command-line arguments passed from main function</param>
+    /// <param name="argv">Array of character pointers listing all command-line arguments passed from main function</param>
     void parseArgument(int argc, char* argv[]);
 
     /// <summary>
@@ -67,7 +74,7 @@ public:
     /// parser.parseArgs({"-s", "5", "12", "-9"});
     /// \endcode
     /// </summary>
-    /// <param name="parsedArguments"></param>
+    /// <param name="parsedArguments">Vector of arguments made to mimic command-line</param>
     void parseArgument(std::vector<std::string> parsedArguments);
 
     /// <summary>
@@ -75,6 +82,11 @@ public:
     /// This will inspect the command line, convert each argument to the appropriate type 
     /// and then invoke the appropriate action.
     /// </summary>
+    /// <param name="argparse">Since subParsers are allso instances of ArgumentParser, we need
+    /// to know with wich ArgumentParser we are working with. 
+    /// </param>
+    /// <param name="parsedAgruments">Vector of arguments parsed from command-line.</param>
+    /// @warning Fix argparse descritpion
     void parseArgument(ArgumentParser& argparse, std::vector<std::string> parsedAgruments);
 
     /// <summary>
@@ -93,7 +105,7 @@ public:
     /// as the program name:
     /// 
     /// \code{.cpp}
-    /// ./myprogram.cpp --help
+    /// ./myprogram.exe --help
     /// usage: myprogram.cpp [-h] [--foo FOO]
     ///
     /// optional arguments :
@@ -257,8 +269,10 @@ public:
     /// <summary>
     /// Non vector variant of argumentdefault
     /// </summary>
-    /// <param name="defaultArgumentValue"></param>
-    /// <returns></returns>
+    /// <param name="defaultArgumentValue">Default value given to all arguments, can be changed if
+    /// different value is parsed to argument.
+    /// </param>
+    /// <returns>Reference to a current object</returns>
     ArgumentParser& argumentDefault(std::variant<std::string, int, bool> defaultArgumentValue);
     
     /// <summary>
@@ -276,7 +290,10 @@ public:
     /// 
     /// Both '--foo' and 'bar' have values '1','2' and '3' 
     /// </summary>
-    /// <returns></returns>
+    /// <param name="defaultArgumentValue">Vector of default values given to all arguments, can be changed
+    /// if different set of values is parsed to argument.
+    /// </param>
+    /// <returns>Reference to a current object</returns>
     ArgumentParser& argumentDefault(std::vector<std::variant<std::string, int, bool>> defaultArgumentValue);
     
     /// <summary>
@@ -291,7 +308,7 @@ public:
     /// parser.parseArgs({"--foob"});
     /// \endcode
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Reference to a current object</returns>
     /// @warning Only usage appears, error message not implemented
     ArgumentParser& allowAbbrev(bool abbrevAllowed);
 
@@ -343,7 +360,8 @@ public:
     /// After parsing the arguments using parseArgs() method, good way to see 
     /// if certain argument was parsed is by using isActive() method on ArgumentParser.
     /// This can be usefull to specifie what should be done if certain argument
-    /// was parsed.
+    /// was parsed. This function is mainly used for optional arguments, positioanl arguments
+    /// have to be parsed so there is no use in checking them.
     /// \code{cpp}
     /// ArgumentParser parser;
     /// parser.addArgument("-f","--foo");
@@ -366,9 +384,13 @@ public:
     /// 
     /// Note that even tho "--foo" wasn't parsed it is set as active, that is because
     /// '-f' and '--foo' are the part of the same Argument object, so if one of them
-    /// is parsed the other one will allso be considered as parsed
+    /// is parsed the other one will allso be considered as parsed.
+    /// 
+    /// This function can allso be used to se if a certian subParser is parsed.
     /// </summary>
-    /// <returns>True if argument is in m_activeRguments, false otherwise</returns>
+    /// <param name="argumentName">Eather short or long name of a optional argument</param>
+    /// @see addArgument(std::string shortArgumentName, std::string longArgumentName="")
+    /// <returns>True if argument is in m_activeArguments, false otherwise</returns>
     bool isActive(std::string argumentName);
 
 
@@ -401,7 +423,11 @@ public:
     /// \endcode
     /// 
     /// </summary>
+    /// <typeparam name="T">Type of value hat needs to be fetched from vector of parsed values</typeparam>
+    /// <param name="argumentName">Full positinal argument name or eather long or short optioanl argument name</param>
+    /// @see addArgument(std::string shortArgumentName, std::string longArgumentName="")
     /// <returns>Vector of values parsed with the object</returns>
+   
     template<typename T>
     std::vector<T> getValues(std::string argumentName) const;
 
@@ -465,6 +491,7 @@ public:
     ArgumentParser& subParsersHelp(std::string subParserHelp);
     
     std::string printUsage() const;
+    std::string printHelp() const;
 
     //Should be private
     ArgumentParser& getSubParser(std::string parserName);
@@ -498,7 +525,6 @@ private:
     void checkForRequired(ArgumentParser& argumentParser);
     void abbreviationCheck(ArgumentParser& argumentParser,std::string& parsedArgument);
     bool isNegativeNumber(std::string parsedArgument);
-    void addUsage(std::string msg);
     bool checkPrefix(const char prefix);
     void resetParsedValues(ArgumentParser& parser);
     void resetActiveArguments(ArgumentParser& parser);
@@ -714,7 +740,7 @@ public:
     /// <summary>
     /// When ArgumentParser generates help messages, it needs some 
     /// way to refer to each expected argument. By default, 
-    /// ArgumentParser objects use the dest value as the “name” of each object. 
+    /// ArgumentParser objects use value as the “name” of each object. 
     /// By default, for positional argument actions, the dest value is used directly, 
     /// and for optional argument actions, the dest value is uppercased. 
     /// So, a single positional argument with dest='bar' will be referred to as bar. 
@@ -744,16 +770,6 @@ public:
     /// Getter for m_help
     /// </summary>
     std::string getHelp() const;
-
-    /// <summary>
-    /// Getter for m_metavar
-    /// </summary>
-    std::string getMetavar() const;
-
-    /// <summary>
-    /// Getter for m_nargs
-    /// </summary>
-    unsigned getNargs() const;
 
     //Should be private, mabye with (Argument& x, ...)
     std::string generateSpaces(std::string argumentName) const;
