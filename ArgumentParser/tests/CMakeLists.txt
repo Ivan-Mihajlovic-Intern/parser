@@ -18,6 +18,11 @@ file(GLOB ARGUMENT_PARSER_TESTS
 	test_name.cpp
 	test_action.cpp
 	test_add_parser.cpp
+	test_help.cpp
+	test_addHelp.cpp
+	test_allowAbbrev.cpp
+	test_required.cpp
+	test_prefixChars.cpp
 )
 
 add_executable(tester ${ARGUMENT_PARSER_TESTS})
