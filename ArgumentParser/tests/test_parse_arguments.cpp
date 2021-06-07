@@ -55,7 +55,7 @@ SCENARIO("Parsing arguments", "[parseArguments]")
 
 		WHEN("three integers are parsed")
 		{
-			parser.parseArgument({ "1","2","7","string1","string2" });
+			parser.parseArgument({ "-1","2","7","string1","string2" });
 			THEN("size of integers argument is three")
 			{
 				const auto result = parser.getValues<int>("integers").size();
@@ -90,6 +90,14 @@ SCENARIO("Parsing arguments", "[parseArguments]")
 			THEN("error is thrown")
 			{
 				REQUIRE_THROWS(parser.parseArgument({ "1", "2", "3", "4" }));
+			}
+		}
+
+		WHEN("less arguments are parsed then specified in nargs")
+		{
+			THEN("error is thrown")
+			{
+				REQUIRE_THROWS(parser.parseArgument({ "1", "2" }));
 			}
 		}
 
