@@ -92,7 +92,7 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
     
     unsigned positionalArgumentsCount = 0;
     unsigned optionalArgumentsCount = 0;
-    auto numOfParsedArguments = parsedArguments.size();
+    int numOfParsedArguments = parsedArguments.size();
     for (int j = 0; j < numOfParsedArguments; ++j)
     {
         //check if it is a subparser
@@ -151,7 +151,7 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
             { 
                 activateArguments(argparse, parsedArguments[j]);
             }
-            else if((search != argparse.m_activeArguments.end()) && !argparse.m_exitOnError)
+            else if((search == argparse.m_activeArguments.end()) && !argparse.m_exitOnError)
             {
                 throw std::invalid_argument("Invalid argument: " + parsedArguments[j]);
             }
@@ -238,7 +238,13 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
 
 ArgumentParser& ArgumentParser::usage(std::string usage) 
 {
-    m_usage = usage;
+    m_usage = "Usage: ";
+    if (!m_programName.empty())
+        m_usage += m_programName + " ";
+    else
+        m_usage += "program.exe ";
+
+    m_usage += usage;
     return *this;
 }
 
@@ -408,18 +414,29 @@ std::string ArgumentParser::printUsage() const
         result += argument.m_usage;
     }
 
-    result += "{";
-    std::string tmp;
-    for (auto& subParser : m_subParsers)
+    if (!m_subParsers.empty())
     {
-        tmp += subParser.m_parserName + ",";
+        result += "{";
+        std::string tmp;
+        for (auto& subParser : m_subParsers)
+        {
+            tmp += subParser.m_parserName + ",";
+        }
+
+        tmp = tmp.substr(0, tmp.size() - 1);
+        result += tmp;
+        result += "}";
     }
 
-    tmp = tmp.substr(0, tmp.size() - 1);
-    result += tmp;
-    result += "}";
-
     return result;
+}
+
+std::string ArgumentParser::printHelp() const
+{
+    std::stringstream buffer;
+    buffer << *this;
+
+    return buffer.str();
 }
 
 /*****************************PRIVATE FUNCTIONS****************************************/
@@ -498,11 +515,6 @@ bool ArgumentParser::isNegativeNumber(std::string parsedArgument)
     }
 
     return true;
-}
-
-void ArgumentParser::addUsage(std::string msg)
-{
-    m_usage += msg + " ";
 }
 
 bool ArgumentParser::isActive(std::string argumentName)
@@ -709,6 +721,11 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
         }
     }
 
+    if (!arg_pars.m_epilog.empty())
+    {
+        out <<arg_pars.m_epilog;
+    }
+
     return out;
 }
 
@@ -787,7 +804,7 @@ Argument& Argument::nargs(int nargs)
 
     //rewriting ussage
     if (m_isOptional)
-        m_usage = "[";
+        m_usage = "[" + m_name.front() + " ";
     else
         m_usage = "";
     for (int i = 0; i < nargs; i++)
@@ -825,7 +842,6 @@ Argument& Argument::help(std::string help)
     return *this;
 }
 
-//maybe different type for metavar
 Argument& Argument::metavar(std::string metavar)
 {
     m_metavar = metavar;
@@ -862,17 +878,6 @@ std::vector<std::string> Argument::getNames() const
 std::string Argument::getHelp() const
 {
     return m_help;
-}
-
-//TODO: add to _usage
-unsigned Argument::getNargs() const
-{
-    return m_nargs;
-}
-
-std::string Argument::getMetavar() const
-{
-    return m_metavar;
 }
 
 std::string Argument::generateSpaces(std::string argumentName) const
