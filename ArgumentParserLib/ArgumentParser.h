@@ -13,6 +13,7 @@
 #include <numeric>
 #include <algorithm>
 #include <sstream>
+#include <any>
 
 class Argument;
 class SubParsers;
@@ -47,10 +48,10 @@ public:
     ///         .help("sum the integers")
     /// \endcode
     /// </summary>
-    /// <param name="shortArgumentName">This parameter holds eather full name of a positional argument
+    /// <param name="shortArgumentName">This parameter holds ether full name of a positional argument
     /// or shortcut of a optional argument(shortcut of '--foo' can be '-f'), it needs to begin with '-'.
     /// </param>
-    /// <param name="longArgumentName">This parameter is usually empty for posiional arguments. For optional
+    /// <param name="longArgumentName">This parameter is usually empty for positional arguments. For optional
     /// arguments it contains the full name of an argument, it needs to begin with '--'.
     /// </param>
     /// <returns>Reference to newly created Argument object</returns>
@@ -69,7 +70,7 @@ public:
 
     /// <summary>
     /// Passes *this and parsedArguments to parseArgument(ArgumentParser&, std::vector<std::string>),
-    /// usefull in cases like:
+    /// useful in cases like:
     /// \code{.cpp}
     /// parser.parseArgs({"-s", "5", "12", "-9"});
     /// \endcode
@@ -82,11 +83,11 @@ public:
     /// This will inspect the command line, convert each argument to the appropriate type 
     /// and then invoke the appropriate action.
     /// </summary>
-    /// <param name="argparse">Since subParsers are allso instances of ArgumentParser, we need
-    /// to know with wich ArgumentParser we are working with. 
+    /// <param name="argparse">Since subParsers are also instances of ArgumentParser, we need
+    /// to know with witch ArgumentParser we are working with. 
     /// </param>
     /// <param name="parsedAgruments">Vector of arguments parsed from command-line.</param>
-    /// @warning Fix argparse descritpion
+    /// @warning Fix argparse description
     void parseArgument(ArgumentParser& argparse, std::vector<std::string> parsedAgruments);
 
     /// <summary>
@@ -109,7 +110,7 @@ public:
     /// usage: myprogram.cpp [-h] [--foo FOO]
     ///
     /// optional arguments :
-    /// -h, --help  show this help messageand exit
+    /// -h, --help  show this help message and exit
     /// --foo FOO   foo help
     /// \endcode
     /// 
@@ -123,7 +124,7 @@ public:
     /// usage: myProgram [-h] [--foo FOO]
     ///
     /// optional arguments :
-    /// -h, --help  show this help messageand exit
+    /// -h, --help  show this help message and exit
     /// --foo FOO   foo help
     /// \endcode
     /// </summary>
@@ -150,7 +151,7 @@ public:
     /// bar          bar help
     ///
     ///    optional arguments :
-    ///  -h, --help   show this help messageand exit
+    ///  -h, --help   show this help message and exit
     ///     --foo[FOO]  foo help
     /// \endcode
     /// 
@@ -200,7 +201,6 @@ public:
     ///  -h, --help  show this help message and exit
     /// \endcode
     /// </summary>
-
     /// <param name="description"></param>
     /// <returns>Reference to a current object</returns>
     ArgumentParser& description(std::string description);
@@ -260,22 +260,6 @@ public:
     ArgumentParser& prefixChars(std::string prefixChars);
 
     /// <summary>
-    /// Setter for m_fromFilePrefixChars
-    /// </summary>
-    /// <returns>Reference to a current object</returns>
-    /// @warning Not implemented
-    ArgumentParser& fromFilePrefixChars(std::string fromFilePrefixChars);
-
-    /// <summary>
-    /// Non vector variant of argumentdefault
-    /// </summary>
-    /// <param name="defaultArgumentValue">Default value given to all arguments, can be changed if
-    /// different value is parsed to argument.
-    /// </param>
-    /// <returns>Reference to a current object</returns>
-    ArgumentParser& argumentDefault(std::variant<std::string, int, bool> defaultArgumentValue);
-    
-    /// <summary>
     /// Generally, argument defaults are specified either by passing a 
     /// default to addArgument(). Sometimes however, it may be useful 
     /// to specify a single parser-wide default for arguments. This can 
@@ -294,8 +278,8 @@ public:
     /// if different set of values is parsed to argument.
     /// </param>
     /// <returns>Reference to a current object</returns>
-    ArgumentParser& argumentDefault(std::vector<std::variant<std::string, int, bool>> defaultArgumentValue);
-    
+    ArgumentParser& argumentDefault(std::variant<std::vector<std::string>, std::vector<int>> defaultArgumentValue);
+
     /// <summary>
     /// Normally, when you pass an argument list to the parseArgs() 
     /// method of an ArgumentParser, it recognizes abbreviations of long options.
@@ -340,7 +324,7 @@ public:
     /// Normally, when you pass an invalid argument list to the 
     /// parseArgs() method of an ArgumentParser, it will exit with
     /// error info. If the user would like to catch errors manually, 
-    /// the feature can be enabled by callinf exitOnError(false) method:
+    /// the feature can be enabled by calling exitOnError(false) method:
     /// 
     /// \code{cpp}
     /// ArgumentParser parser;
@@ -359,8 +343,8 @@ public:
     /// <summary>
     /// After parsing the arguments using parseArgs() method, good way to see 
     /// if certain argument was parsed is by using isActive() method on ArgumentParser.
-    /// This can be usefull to specifie what should be done if certain argument
-    /// was parsed. This function is mainly used for optional arguments, positioanl arguments
+    /// This can be useful to specifie what should be done if certain argument
+    /// was parsed. This function is mainly used for optional arguments, positional arguments
     /// have to be parsed so there is no use in checking them.
     /// \code{cpp}
     /// ArgumentParser parser;
@@ -384,11 +368,11 @@ public:
     /// 
     /// Note that even tho "--foo" wasn't parsed it is set as active, that is because
     /// '-f' and '--foo' are the part of the same Argument object, so if one of them
-    /// is parsed the other one will allso be considered as parsed.
+    /// is parsed the other one will also be considered as parsed.
     /// 
-    /// This function can allso be used to se if a certian subParser is parsed.
+    /// This function can also be used to see if a certain subParser is parsed.
     /// </summary>
-    /// <param name="argumentName">Eather short or long name of a optional argument</param>
+    /// <param name="argumentName">Ether short or long name of a optional argument</param>
     /// @see addArgument(std::string shortArgumentName, std::string longArgumentName="")
     /// <returns>True if argument is in m_activeArguments, false otherwise</returns>
     bool isActive(std::string argumentName);
@@ -404,11 +388,11 @@ public:
     /// \endcode 
     /// 
     /// Accessing those values parsed to argument "integers" is 
-    /// achived by using getValues<type>(argumentName) method on ArgumentParser.
-    /// argumentName is the name of argument whos values we want to get,
+    /// achieved by using getValues<type>(argumentName) method on ArgumentParser.
+    /// argumentName is the name of argument who's values we want to get,
     /// in this chase argumentName is "integers", type should be the same as
     /// type specified in argumentType<type>() method, in this case type is int.
-    /// If types do not match error will occour.
+    /// If types do not match error will occur.
     /// 
     /// \code{cpp}
     /// std::vector<int> values = parser.getValues<int>("integers");
@@ -424,7 +408,7 @@ public:
     /// 
     /// </summary>
     /// <typeparam name="T">Type of value hat needs to be fetched from vector of parsed values</typeparam>
-    /// <param name="argumentName">Full positinal argument name or eather long or short optioanl argument name</param>
+    /// <param name="argumentName">Full positional argument name or ether long or short optional argument name</param>
     /// @see addArgument(std::string shortArgumentName, std::string longArgumentName="")
     /// <returns>Vector of values parsed with the object</returns>
    
@@ -433,7 +417,7 @@ public:
 
     /// <summary>
     /// Operator<< is used to generate help message, help message gets
-    /// printed by eather parsing -h or --help or by printing the whole
+    /// printed by ether parsing -h or --help or by printing the whole
     /// ArgumentParser object:
     /// 
     /// \code{cpp}
@@ -453,7 +437,7 @@ public:
     /// 
     /// optional arguments:
     ///  -h, --help  show this help message and exit
-    ///  --foo   help mesage for foo
+    ///  --foo   help message for foo
     /// \endcode
     /// 
     /// </summary>
@@ -470,33 +454,84 @@ public:
     ArgumentParser& addParser(std::string parserName);
 
     /// <summary>
-    /// Setter for m_subParsersTitle
+    /// Title for the sub-parser group in help output,  
+    /// by default “subcommands” if description is provided, 
+    /// otherwise uses title for positional arguments
     /// </summary>
     /// <param name="subParserTitle"></param>
     /// <returns>Reference to current object</returns>
     ArgumentParser& subParsersTitle(std::string subParserTitle);
 
     /// <summary>
-    /// Setter for m_subParserdescrition
+    /// Description for the sub-parser group in help output, by default ""
     /// </summary>
     /// <param name="subParserDescription"></param>
     /// <returns>Reference to current object</returns>
     ArgumentParser& subParsersDescription(std::string subParserDescription);
     
     /// <summary>
-    /// Setter for m_subParsersHelp
+    /// help for sub-parser group in help output, by default ""
     /// </summary>
     /// <param name="subParserHelp"></param>
     /// <returns>Reference to a current object</returns>
     ArgumentParser& subParsersHelp(std::string subParserHelp);
     
+    /// <summary>
+    /// Print a brief description of how the ArgumentParser should be invoked on the command line.
+    /// </summary>
+    /// <returns>String containing usage</returns>
     std::string printUsage() const;
+
+    /// <summary>
+    /// Print a help message, including the program usage and information
+    /// about the arguments registered with the ArgumentParser.
+    /// </summary>
+    /// <returns>String containing help</returns>
     std::string printHelp() const;
 
+    /// <summary>
+   /// Converts contents of argv into string and passes it to
+   /// parseKnownArgs(std::vector<std::string>)
+   /// \code{.cpp}
+   /// parser.parseKnownArgs(argc, argv);
+   /// \endcode
+   /// </summary>
+   /// <param name="argc">Argument count of command-line arguments passed from main function</param>
+   /// <param name="argv">Array of character pointers listing all command-line arguments passed from main function</param>
+    void parseKnownArgs(int argc,char* argv[]);
+    
+    /// <summary>
+    /// Sometimes a script may only parse a few of the command-line arguments, 
+    /// passing the remaining arguments on to another script or program. In these cases, 
+    /// the parseKnownArgs() method can be useful. It works much like parseArgs() 
+    /// except that it does not produce an error when extra arguments are present. 
+    /// Instead, it puts remaining arguments in a vector. These arguments can be accessed
+    /// by using method getUnusedValues()
+    /// \code{.cpp}
+    /// ArgumentParser parser;
+    /// 
+    /// parser.addArgument("-f", "--foo");
+    /// parser.addArgument("integers").nargs(3).argumentType<int>();
+    /// 
+    /// //even tho '-g' isn't added arguments are still parsed, '-g' and '4' are ignored
+    /// parser.parseKnownArgs({"-f", "-g", "1", "2", "3", "4"});
+    /// \endcode
+    /// </summary>
+    /// <param name="parsedArguments">Vector of arguments made to mimic command-line</param>
+    void parseKnownArgs(std::vector<std::string> parsedArguments);
+    
+    /// <summary>
+    /// When parseKnownArgs is used,all know arguments are parsed and all unknown arguments 
+    /// are put in a vector. This vector is accessible trough method getUnusedValues() 
+    /// </summary>
+    /// <returns>Vector of all unknown arguments</returns>
+    std::vector<std::string> getUnusedValues();
+    
+    
     //Should be private
     ArgumentParser& getSubParser(std::string parserName);
     std::string printAllSubParsers(std::list<ArgumentParser> subParsers) const;
-    std::string printSubParser(const ArgumentParser& subParser) const;
+    std::string printSubParser() const;
     Argument& getArgument(std::string argumentName);
     std::list<ArgumentParser> getSubParsers()
     {
@@ -520,8 +555,11 @@ protected:
     std::string m_subParsersHelp;
     
 private:
+    
+    int getNumberOfPositionalArguments();
+    bool checkIfOpionalIsAdded(const std::string parsedArgument);
+    bool checkIfPositionalIsAdded(const std::string parsedArgument);
     void activateArguments(ArgumentParser& parser,const std::string parsedArgument);
-
     void checkForRequired(ArgumentParser& argumentParser);
     void abbreviationCheck(ArgumentParser& argumentParser,std::string& parsedArgument);
     bool isNegativeNumber(std::string parsedArgument);
@@ -531,9 +569,13 @@ private:
     void programNameFromArgv(std::string);
     std::vector<std::string> makeSubParserVector(std::vector<std::string> parsedArguments, int currentArgument);
     
+    std::vector<std::string> m_unusedValues;
+    bool m_hasDefaultValue = false;
     bool m_exitOnError = true;
     bool m_abbrevAllowed = true;
+    std::any m_defValues;
     std::vector<std::variant<std::string, int, bool>> m_defaultArgumentValue;
+    std::variant<std::vector<std::string>, std::vector<int>> m_defaultArgumentVector;
     bool m_addHelp = true;
     std::string m_parserName;
     std::string m_usage;
@@ -545,12 +587,6 @@ private:
     std::string m_fromFilePrefixChars;
     bool m_subParserCalled = false;  
 };
-
-/**************************************************************************
-
-***************************************************************************/
-
-
 
 /**************************************************************************
 
@@ -654,7 +690,7 @@ public:
     /// 
     /// In example written above, argument "integers" is associated
     /// with "1", "2" and "3" witch are strings, method parseArgs()
-    /// tkes those strings and converts them into types specified in 
+    /// takes those strings and converts them into types specified in 
     /// argumentType<type>(), in this case it converts them to int
     /// </summary>
     /// <returns>Reference to a current object</returns>
@@ -662,12 +698,8 @@ public:
     template<typename T>
     Argument& argumentType()
     {
-        //_parsedValues<T>{};
-        if (typeid(T) == typeid(std::string))
-            m_type = "string";
-        else
-            m_type = typeid(T).name();
-        //_parsed
+        T variableOfTypeT;
+        m_argumentType = variableOfTypeT;
         return *this;
     }
 
@@ -682,7 +714,7 @@ public:
     /// <param name="choices"></param>
     /// <returns></returns>
     /// @warning Not implemented
-    Argument& choices(std::vector<std::variant<std::string, int, bool>> choices);
+    Argument& choices(std::vector<std::variant<std::string, int>> choices);
 
     /// <summary>
     /// In general, the argparse module assumes that flags like 
@@ -704,7 +736,7 @@ public:
     /// </summary>
     /// <returns></returns>
     /// @note Required options are generally considered bad form because users expect options to be optional, and thus they should be avoided when possible.
-    /// @warning Error mesage not implemented, only usage appears
+    /// @warning Error message not implemented, only usage appears
     Argument& required(bool required);
 
     /// <summary>
@@ -730,7 +762,7 @@ public:
     /// 
     /// optional arguments:
     ///  -h, --help  show this help message and exit
-    ///  --foo   help mesage for foo
+    ///  --foo   help message for foo
     /// \endcode
     /// </summary>
     /// <returns>Reference to a current object</returns>
@@ -771,7 +803,7 @@ public:
     /// </summary>
     std::string getHelp() const;
 
-    //Should be private, mabye with (Argument& x, ...)
+    //Should be private, maybe with (Argument& x, ...)
     std::string generateSpaces(std::string argumentName) const;
     
 protected:
@@ -779,11 +811,13 @@ protected:
     Argument& isOptional();
 
 private:
+    bool checkForChoices(std::variant<std::string,int> parsedValue);
     void performAcion(const std::string action);
     void actionCheck(const std::string action);
     void resolveArgumentTypes(std::string argumentType);
 
-    std::vector<std::variant<std::string, int, bool>> m_choices;
+    std::vector<std::variant<std::string, int>> m_choices;
+    std::variant<std::string, int, bool> m_argumentType;
     bool m_required = false;
     bool m_isOptional = false;
     std::string m_usage;
@@ -826,12 +860,21 @@ std::vector<T> ArgumentParser::getValues(std::string argumentName) const
             }
             else
             {
-                for (int i = 0; i < m_defaultArgumentValue.size(); i++)
+                auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
+                    {
+                        std::vector<std::variant<std::string, int, bool>> tmp;
+                        for (auto&& defaultValue : defaultValues)
+                            tmp.push_back(defaultValue);
+                        return tmp;
+                    }, m_defaultArgumentVector);
+
+                for (auto& defaultValue : temporeary)
                 {
-                    T tmp = std::get<T>(m_defaultArgumentValue[i]);
+                    T tmp = std::get<T>(defaultValue);
                     result.push_back(tmp);
                 }
-                    return result;
+
+                return result;
             }
         }
     }
@@ -851,22 +894,32 @@ std::vector<T> ArgumentParser::getValues(std::string argumentName) const
             }
             else
             {
-                for (int i = 0; i < m_defaultArgumentValue.size() ; i++)
+                auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
+                    {
+                        std::vector<std::variant<std::string, int, bool>> tmp;
+                        for (auto&& defaultValue : defaultValues)
+                            tmp.push_back(defaultValue);
+                        return tmp;
+                    }, m_defaultArgumentVector);
+
+                for (auto& defaultValue : temporeary)
                 {
-                    T tmp = std::get<T>(m_defaultArgumentValue[i]);
+                    T tmp = std::get<T>(defaultValue);
                     result.push_back(tmp);
                 }
-                    return result;
+
+                return result;
             }
         }
     }
+
+    return result;
 }
 
 template<typename T>
 Argument& Argument::def(T value)
 {
-
-
+    m_parsedValues.push_back(value);
     return *this;
 }
 
