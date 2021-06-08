@@ -3,9 +3,9 @@
 int main(int argc, char* argv[])
 {
     ArgumentParser arg_pars;
-    
+    std::cout << "start\n";
     //positional
-    arg_pars.addHelp(false);
+    //arg_pars.addHelp(false);
     arg_pars.exitOnError(false);
     arg_pars.argumentDefault({365, 366});
     arg_pars.prefixChars("-+");
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     //arg_pars.addArgument("M").help("int argument required").nargs(3).argumentType<int>();
 
     //optional
-    arg_pars.addArgument("+p", "++plus").help("prefix is plus").required(true);
+    arg_pars.addArgument("+p", "++plus").help("prefix is plus").nargs(2).argumentType<int>();
     arg_pars.addArgument("+b", "+-both").help("prefix is both + and -");
     arg_pars.addArgument("-i", "--info").help("shows information about program");
     arg_pars.addArgument("-o").help("just a shorcut").nargs(1).argumentType<std::string>();
@@ -42,11 +42,12 @@ int main(int argc, char* argv[])
 
     //parseArgs
     //std::cout << arg_pars.printUsage() << "\n";
+   // std::cout << arg_pars.printHelp() << "\n";
     arg_pars.parseArgument(argc, argv);
     //arg_pars.parseArgument({"-o", "4", "5", "6"});
     //arg_pars.parseArgument({ "--option", "24", "13", "14" });
     //passed args testing
-    
+    std::cout << "pst parse\n";
     std::vector<int> args = arg_pars.getValues<int>("N");
     auto userName = subSubParser.getValues<std::string>("--user.name");
     int sum = 0;

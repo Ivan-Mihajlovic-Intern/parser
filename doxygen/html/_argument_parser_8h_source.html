@@ -100,6 +100,7 @@ $(document).ready(function(){initNavTree('_argument_parser_8h_source.html',''); 
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;numeric&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<<<<<<< HEAD
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span><a class="code" href="class_argument.html">Argument</a>;</div>
@@ -338,10 +339,269 @@ $(document).ready(function(){initNavTree('_argument_parser_8h_source.html',''); 
 <div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_defaultArgumentValue.size(); i++)</div>
 <div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;                {</div>
 <div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;                    T tmp = std::get&lt;T&gt;(m_defaultArgumentValue[i]);</div>
+=======
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span><a class="code" href="class_argument.html">Argument</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>SubParsers;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_argument_parser.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_argument_parser.html">ArgumentParser</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="class_argument_parser.html#ab42a21a6a6fadcf9e41a03623cf3284f">ArgumentParser</a>(std::string parserName=<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">addArgument</a>(std::string shortArgumentName, std::string longArgumentName=<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_argument_parser.html#ab4ea0f17b776c155afc3baabd55b4979">parseArgument</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_argument_parser.html#ab4ea0f17b776c155afc3baabd55b4979">parseArgument</a>(std::vector&lt;std::string&gt; parsedArguments);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_argument_parser.html#ab4ea0f17b776c155afc3baabd55b4979">parseArgument</a>(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; argparse, std::vector&lt;std::string&gt; parsedAgruments);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#abc8b727ab790a04620943a73f2c47aeb">prog</a>(std::string programName);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a75974c6c00bd701ab15582d1cdfde939">usage</a>(std::string <a class="code" href="class_argument_parser.html#a75974c6c00bd701ab15582d1cdfde939">usage</a>);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a3f13a529db57e5bb631ed94481648c26">description</a>(std::string <a class="code" href="class_argument_parser.html#a3f13a529db57e5bb631ed94481648c26">description</a>);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a4fecf05035e7dc664747dbe4c70469d4">epilog</a>(std::string <a class="code" href="class_argument_parser.html#a4fecf05035e7dc664747dbe4c70469d4">epilog</a>);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#abdcae1a4140bf8bd6ac77921f846b1c7">help</a>(std::string <a class="code" href="class_argument_parser.html#abdcae1a4140bf8bd6ac77921f846b1c7">help</a>);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a8deb3aec1ad84f33ca5a543d9d31124a">prefixChars</a>(std::string <a class="code" href="class_argument_parser.html#a8deb3aec1ad84f33ca5a543d9d31124a">prefixChars</a>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a86f9f46c090e7e756fee3a23b40abbb0">fromFilePrefixChars</a>(std::string <a class="code" href="class_argument_parser.html#a86f9f46c090e7e756fee3a23b40abbb0">fromFilePrefixChars</a>);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a70211cd383bcca418140e127f5428d43">argumentDefault</a>(std::variant&lt;std::string, int, bool&gt; defaultArgumentValue);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    </div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a70211cd383bcca418140e127f5428d43">argumentDefault</a>(std::vector&lt;std::variant&lt;std::string, int, bool&gt;&gt; defaultArgumentValue);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    </div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a150a9d4b0949ad254009cab9540c6e43">allowAbbrev</a>(<span class="keywordtype">bool</span> abbrevAllowed);</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_argument_parser.html#aea0c473ede6bbbd191578efe0b1a2082">conflictHandeler</a>(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; argumentParser, std::string shortArgumentName, std::string longArgumentName);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a4db4a58b86fb313258f53cd2e3982223">addHelp</a>(<span class="keywordtype">bool</span> <a class="code" href="class_argument_parser.html#a4db4a58b86fb313258f53cd2e3982223">addHelp</a>);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#ad96dccce434cb08999ca698421c0ddac">exitOnError</a>(<span class="keywordtype">bool</span> <a class="code" href="class_argument_parser.html#ad96dccce434cb08999ca698421c0ddac">exitOnError</a>);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_argument_parser.html#a54635eb7bdd3ee71724779bd12a3c3b1">isActive</a>(std::string argumentName);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    std::vector&lt;T&gt; <a class="code" href="class_argument_parser.html#a6c41d32e3bfb55f745ccd6224d3f318d">getValues</a>(std::string argumentName) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="class_argument_parser.html#aa8a4bd8e43c74a4f2868dbe5b5d5c50d">operator&lt;&lt;</a>(std::ostream&amp; out, <span class="keyword">const</span> <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; arg_pars);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="comment">//SUBPARSER</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#aa1936c0226f2eb820495dcba1dd352e1">addParser</a>(std::string parserName);</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a3229702ad3adc062d6f626f39b2487dc">subParsersTitle</a>(std::string subParserTitle);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#a5b0441afb06ee73f30ac6d28098b9ebe">subParsersDescription</a>(std::string subParserDescription);</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    </div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#ae3e4793f8856020aabf694885d6af2ae">subParsersHelp</a>(std::string subParserHelp);</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    </div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    std::string <a class="code" href="class_argument_parser.html#aea45bc21ff2017f3f4fe1597320b9fea">printUsage</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    <span class="comment">//Should be private</span></div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; <a class="code" href="class_argument_parser.html#ac060948ec6ced5a76775f09675bf19a2">getSubParser</a>(std::string parserName);</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    std::string <a class="code" href="class_argument_parser.html#a00533e75883585f70eb9c5c16f8e45bc">printAllSubParsers</a>(std::list&lt;ArgumentParser&gt; subParsers) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    std::string <a class="code" href="class_argument_parser.html#a84ec32c97ffef1c8b77036aa7369d176">printSubParser</a>(<span class="keyword">const</span> <a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; subParser) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument_parser.html#a1c8bc4553e1f4eb3b0582c94058c9baf">getArgument</a>(std::string argumentName);</div>
+<div class="line"><a name="l00474"></a><span class="lineno"><a class="line" href="class_argument_parser.html#a7d291b6bcf05e804e2c3f705983e3db8">  474</a></span>&#160;    std::list&lt;ArgumentParser&gt; <a class="code" href="class_argument_parser.html#a7d291b6bcf05e804e2c3f705983e3db8">getSubParsers</a>()</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    {</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;        <span class="keywordflow">return</span> m_subParsers;</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    }</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160; </div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160; </div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    <span class="comment">//for testing purpose</span></div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;    std::vector&lt;Argument&gt; m_optionalArguments;</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;    std::vector&lt;Argument&gt; m_positionalArguments;</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    std::map&lt;std::string, bool&gt; m_activeArguments;</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    std::map&lt;std::string, bool&gt; m_activeSubParsers;</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    std::string m_programName;</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    std::list&lt;ArgumentParser&gt; m_subParsers;</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> helpLength = 15;</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160; </div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="comment">//subparser</span></div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    std::string m_subParsersTitle;</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    std::string m_subParsersDescription;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    std::string m_subParsersHelp;</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keywordtype">void</span> activateArguments(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; parser,<span class="keyword">const</span> std::string parsedArgument);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160; </div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordtype">void</span> checkForRequired(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; argumentParser);</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="keywordtype">void</span> abbreviationCheck(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; argumentParser,std::string&amp; parsedArgument);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordtype">bool</span> isNegativeNumber(std::string parsedArgument);</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keywordtype">void</span> addUsage(std::string msg);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordtype">bool</span> checkPrefix(<span class="keyword">const</span> <span class="keywordtype">char</span> prefix);</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    <span class="keywordtype">void</span> resetParsedValues(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; parser);</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    <span class="keywordtype">void</span> resetActiveArguments(<a class="code" href="class_argument_parser.html">ArgumentParser</a>&amp; parser);</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;    <span class="keywordtype">void</span> programNameFromArgv(std::string);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    std::vector&lt;std::string&gt; makeSubParserVector(std::vector&lt;std::string&gt; parsedArguments, <span class="keywordtype">int</span> currentArgument);</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    </div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="keywordtype">bool</span> m_exitOnError = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    <span class="keywordtype">bool</span> m_abbrevAllowed = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;    std::vector&lt;std::variant&lt;std::string, int, bool&gt;&gt; m_defaultArgumentValue;</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;    <span class="keywordtype">bool</span> m_addHelp = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;    std::string m_parserName;</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    std::string m_usage;</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    std::string m_help;</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    std::string m_description;</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    std::string m_epilog;</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    std::vector&lt;ArgumentParser&gt; m_parents;</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    std::string m_prefixChars = <span class="stringliteral">&quot;-&quot;</span>;</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    std::string m_fromFilePrefixChars;</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="keywordtype">bool</span> m_subParserCalled = <span class="keyword">false</span>;  </div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;};</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160; </div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;<span class="comment">/**************************************************************************</span></div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;<span class="comment">***************************************************************************/</span></div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160; </div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160; </div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160; </div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;<span class="comment">/**************************************************************************</span></div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;<span class="comment">***************************************************************************/</span></div>
+<div class="line"><a name="l00532"></a><span class="lineno"><a class="line" href="class_argument.html">  532</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_argument.html">Argument</a></div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;{</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00535"></a><span class="lineno"><a class="line" href="class_argument.html#a55c9e1ac006a645af402e3aee6b64e00">  535</a></span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="class_argument_parser.html">ArgumentParser</a>;</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160; </div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <a class="code" href="class_argument.html#a21f78c9b347967aa8bf77e5d3f35592f">Argument</a>();</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160; </div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a3f863dac65fa3fa3ab9e1509391c24da">name</a>(std::string shortArgumentName, std::string longArgumentName);</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160; </div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a690c969fe21f03096b10d9d278f2c1fb">action</a>(std::string <a class="code" href="class_argument.html#a690c969fe21f03096b10d9d278f2c1fb">action</a>);</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160; </div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">nargs</a>(<span class="keywordtype">int</span> <a class="code" href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">nargs</a>);</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;    </div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00600"></a><span class="lineno"><a class="line" href="class_argument.html#ab4b78aa1f22f3567eb69cfa572c9eaa3">  600</a></span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#ab4b78aa1f22f3567eb69cfa572c9eaa3">constant</a>(T <a class="code" href="class_argument.html#ab4b78aa1f22f3567eb69cfa572c9eaa3">constant</a>)</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;    {</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        m_constant = <a class="code" href="class_argument.html#ab4b78aa1f22f3567eb69cfa572c9eaa3">constant</a>;</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;    }</div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;    </div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a7f354e9a385dd84046ef5431b02d8f63">def</a>(T value);</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160; </div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00637"></a><span class="lineno"><a class="line" href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">  637</a></span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">argumentType</a>()</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    {</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;        <span class="comment">//_parsedValues&lt;T&gt;{};</span></div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">typeid</span>(T) == <span class="keyword">typeid</span>(std::string))</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;            m_type = <span class="stringliteral">&quot;string&quot;</span>;</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;            m_type = <span class="keyword">typeid</span>(T).<a class="code" href="class_argument.html#a3f863dac65fa3fa3ab9e1509391c24da">name</a>();</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        <span class="comment">//_parsed</span></div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;    }</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160; </div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#ae5d2a37806d96bd168f0fe910f21f1de">choices</a>(std::vector&lt;std::variant&lt;std::string, int, bool&gt;&gt; <a class="code" href="class_argument.html#ae5d2a37806d96bd168f0fe910f21f1de">choices</a>);</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160; </div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a8d05fec77d5dc7c7e843bf5cdc520ad5">required</a>(<span class="keywordtype">bool</span> <a class="code" href="class_argument.html#a8d05fec77d5dc7c7e843bf5cdc520ad5">required</a>);</div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160; </div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">help</a>(std::string <a class="code" href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">help</a>);</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160; </div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">metavar</a>(std::string <a class="code" href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">metavar</a>);</div>
+<div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160; </div>
+<div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    </div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    std::string <a class="code" href="class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414">getName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160; </div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;    std::vector&lt;std::string&gt; <a class="code" href="class_argument.html#aea0801a4d420fbc8b9a6d01d6c52834d">getNames</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160; </div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;    std::string <a class="code" href="class_argument.html#a3e154817605b011715ccd8e1ab830256">getHelp</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160; </div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;    std::string <a class="code" href="class_argument.html#a739efff65f96a2b65f65df3e2a873f50">getMetavar</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160; </div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;    <span class="keywordtype">unsigned</span> <a class="code" href="class_argument.html#ae4bb6003fdf9877ef3b8f949d9f6c868">getNargs</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160; </div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;    <span class="comment">//Should be private, mabye with (Argument&amp; x, ...)</span></div>
+<div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    std::string <a class="code" href="class_argument.html#a936d515c7aa984ef7e85710d5b855cfe">generateSpaces</a>(std::string argumentName) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    </div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> helpLength = 15;</div>
+<div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;    <a class="code" href="class_argument.html">Argument</a>&amp; isOptional();</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160; </div>
+<div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;    <span class="keywordtype">void</span> performAcion(<span class="keyword">const</span> std::string <a class="code" href="class_argument.html#a690c969fe21f03096b10d9d278f2c1fb">action</a>);</div>
+<div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160;    <span class="keywordtype">void</span> actionCheck(<span class="keyword">const</span> std::string <a class="code" href="class_argument.html#a690c969fe21f03096b10d9d278f2c1fb">action</a>);</div>
+<div class="line"><a name="l00768"></a><span class="lineno">  768</span>&#160;    <span class="keywordtype">void</span> resolveArgumentTypes(std::string <a class="code" href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">argumentType</a>);</div>
+<div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160; </div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;    std::vector&lt;std::variant&lt;std::string, int, bool&gt;&gt; m_choices;</div>
+<div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;    <span class="keywordtype">bool</span> m_required = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;    <span class="keywordtype">bool</span> m_isOptional = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;    std::string m_usage;</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    std::vector&lt;std::string&gt; m_name;</div>
+<div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;    std::string m_action;</div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;    <span class="keywordtype">unsigned</span> m_nargs = 0;</div>
+<div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;    std::variant&lt;std::string, int, bool&gt; m_constant;</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;    std::string m_def;</div>
+<div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;    std::string m_help;</div>
+<div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;    std::string m_metavar;</div>
+<div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    std::string m_type;</div>
+<div class="line"><a name="l00782"></a><span class="lineno">  782</span>&#160; </div>
+<div class="line"><a name="l00783"></a><span class="lineno">  783</span>&#160;    <span class="comment">//variant of vectors</span></div>
+<div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;    std::vector&lt;std::variant&lt;std::string, int, bool&gt;&gt; m_parsedValues;</div>
+<div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;    <span class="comment">//std::variant&lt;std::vector&lt;std::string&gt;, std::vector&lt;int&gt;, std::vector&lt;bool&gt;&gt; _parsedValues;</span></div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160; </div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160; </div>
+<div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    std::vector&lt;std::string&gt; allowedActions{ <span class="stringliteral">&quot;store&quot;</span>, <span class="stringliteral">&quot;store_const&quot;</span>, <span class="stringliteral">&quot;store_true&quot;</span>,</div>
+<div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;                                            <span class="stringliteral">&quot;store_false&quot;</span>, <span class="stringliteral">&quot;append&quot;</span>, <span class="stringliteral">&quot;append_const&quot;</span>,</div>
+<div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;                                            <span class="stringliteral">&quot;count&quot;</span>, <span class="stringliteral">&quot;help&quot;</span>};</div>
+<div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;};</div>
+<div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160; </div>
+<div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;<span class="comment">//TODO: rename variables</span></div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00795"></a><span class="lineno"><a class="line" href="class_argument_parser.html#a6c41d32e3bfb55f745ccd6224d3f318d">  795</a></span>&#160;std::vector&lt;T&gt; <a class="code" href="class_argument_parser.html#a6c41d32e3bfb55f745ccd6224d3f318d">ArgumentParser::getValues</a>(std::string argumentName)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    std::vector&lt;T&gt; result;</div>
+<div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; arg : m_positionalArguments)</div>
+<div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;    {</div>
+<div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        <span class="keywordflow">if</span> (arg.getName() == argumentName)</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;        {</div>
+<div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;            <span class="keywordflow">if</span> (!arg.m_parsedValues.empty()) </div>
+<div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;            {</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; arg.m_parsedValues.size(); i++)</div>
+<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;                {</div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;                    T tmp = std::get&lt;T&gt;(arg.m_parsedValues[i]);</div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;                    result.push_back(tmp);</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;                }</div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;                    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;            }</div>
+<div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;            {</div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_defaultArgumentValue.size(); i++)</div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;                {</div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;                    T tmp = std::get&lt;T&gt;(m_defaultArgumentValue[i]);</div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;                    result.push_back(tmp);</div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;                }</div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;                    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;            }</div>
+<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;        }</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;    }</div>
+<div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160; </div>
+<div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; arg : m_optionalArguments)</div>
+<div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;    {</div>
+<div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;        <span class="keywordflow">if</span> (arg.getNames()[0] == argumentName || (arg.getNames()[1] == argumentName))</div>
+<div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;        {</div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;            <span class="keywordflow">if</span> (!arg.m_parsedValues.empty())</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;            {</div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; arg.m_parsedValues.size(); i++)</div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;                {</div>
+<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160;                    T tmp = std::get&lt;T&gt;(arg.m_parsedValues[i]);</div>
+>>>>>>> main
 <div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;                    result.push_back(tmp);</div>
 <div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;                }</div>
 <div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;                    <span class="keywordflow">return</span> result;</div>
 <div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;            }</div>
+<<<<<<< HEAD
 <div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;        }</div>
 <div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;    }</div>
 <div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160; </div>
@@ -426,6 +686,77 @@ $(document).ready(function(){initNavTree('_argument_parser_8h_source.html',''); 
 <div class="ttc" id="aclass_argument_parser_html_aea0c473ede6bbbd191578efe0b1a2082"><div class="ttname"><a href="class_argument_parser.html#aea0c473ede6bbbd191578efe0b1a2082">ArgumentParser::conflictHandeler</a></div><div class="ttdeci">bool conflictHandeler(ArgumentParser &amp;argumentParser, std::string shortArgumentName, std::string longArgumentName)</div><div class="ttdoc">ArgumentParser objects do not allow two actions with the same option string. By default,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:323</div></div>
 <div class="ttc" id="aclass_argument_parser_html_aea45bc21ff2017f3f4fe1597320b9fea"><div class="ttname"><a href="class_argument_parser.html#aea45bc21ff2017f3f4fe1597320b9fea">ArgumentParser::printUsage</a></div><div class="ttdeci">std::string printUsage() const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:395</div></div>
 <div class="ttc" id="aclass_argument_parser_html_aedcce256f97c85d99f8f8323982f3a9c"><div class="ttname"><a href="class_argument_parser.html#aedcce256f97c85d99f8f8323982f3a9c">ArgumentParser::printHelp</a></div><div class="ttdeci">std::string printHelp() const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:434</div></div>
+=======
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            {</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_defaultArgumentValue.size() ; i++)</div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;                {</div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;                    T tmp = std::get&lt;T&gt;(m_defaultArgumentValue[i]);</div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;                    result.push_back(tmp);</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;                }</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;                    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;            }</div>
+<div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;        }</div>
+<div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;    }</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;}</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160; </div>
+<div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00850"></a><span class="lineno"><a class="line" href="class_argument.html#a7f354e9a385dd84046ef5431b02d8f63">  850</a></span>&#160;<a class="code" href="class_argument.html">Argument</a>&amp; <a class="code" href="class_argument.html#a7f354e9a385dd84046ef5431b02d8f63">Argument::def</a>(T value)</div>
+<div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;{</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160; </div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160; </div>
+<div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;}</div>
+<div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160; </div>
+<div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// _ARGUMRNT_PARSER_HPP</span></div>
+<div class="ttc" id="aclass_argument_html"><div class="ttname"><a href="class_argument.html">Argument</a></div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:533</div></div>
+<div class="ttc" id="aclass_argument_html_a1865ad92943887e2d3a0f9dcfdcbf414"><div class="ttname"><a href="class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414">Argument::getName</a></div><div class="ttdeci">std::string getName() const</div><div class="ttdoc">String representation of the argument name</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:844</div></div>
+<div class="ttc" id="aclass_argument_html_a21f78c9b347967aa8bf77e5d3f35592f"><div class="ttname"><a href="class_argument.html#a21f78c9b347967aa8bf77e5d3f35592f">Argument::Argument</a></div><div class="ttdeci">Argument()</div><div class="ttdoc">Define how a single command-line argument should be parsed.</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:747</div></div>
+<div class="ttc" id="aclass_argument_html_a23e097f185c65c5690f534b6b09835b8"><div class="ttname"><a href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">Argument::metavar</a></div><div class="ttdeci">Argument &amp; metavar(std::string metavar)</div><div class="ttdoc">When ArgumentParser generates help messages, it needs some way to refer to each expected argument....</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:829</div></div>
+<div class="ttc" id="aclass_argument_html_a3e154817605b011715ccd8e1ab830256"><div class="ttname"><a href="class_argument.html#a3e154817605b011715ccd8e1ab830256">Argument::getHelp</a></div><div class="ttdeci">std::string getHelp() const</div><div class="ttdoc">Getter for m_help</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:862</div></div>
+<div class="ttc" id="aclass_argument_html_a3f863dac65fa3fa3ab9e1509391c24da"><div class="ttname"><a href="class_argument.html#a3f863dac65fa3fa3ab9e1509391c24da">Argument::name</a></div><div class="ttdeci">Argument &amp; name(std::string shortArgumentName, std::string longArgumentName)</div><div class="ttdoc">The add_argument() method must know whether an optional argument, like -f or –foo,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:752</div></div>
+<div class="ttc" id="aclass_argument_html_a520a4b24f79192546ec10c7f08b8fba5"><div class="ttname"><a href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">Argument::help</a></div><div class="ttdeci">Argument &amp; help(std::string help)</div><div class="ttdoc">The help value is a string containing a brief description of the argument. When a user requests help ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:822</div></div>
+<div class="ttc" id="aclass_argument_html_a690c969fe21f03096b10d9d278f2c1fb"><div class="ttname"><a href="class_argument.html#a690c969fe21f03096b10d9d278f2c1fb">Argument::action</a></div><div class="ttdeci">Argument &amp; action(std::string action)</div><div class="ttdoc">Setter for m_action</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:774</div></div>
+<div class="ttc" id="aclass_argument_html_a739efff65f96a2b65f65df3e2a873f50"><div class="ttname"><a href="class_argument.html#a739efff65f96a2b65f65df3e2a873f50">Argument::getMetavar</a></div><div class="ttdeci">std::string getMetavar() const</div><div class="ttdoc">Getter for m_metavar</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:873</div></div>
+<div class="ttc" id="aclass_argument_html_a7f354e9a385dd84046ef5431b02d8f63"><div class="ttname"><a href="class_argument.html#a7f354e9a385dd84046ef5431b02d8f63">Argument::def</a></div><div class="ttdeci">Argument &amp; def(T value)</div><div class="ttdoc">default in python</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:850</div></div>
+<div class="ttc" id="aclass_argument_html_a8d05fec77d5dc7c7e843bf5cdc520ad5"><div class="ttname"><a href="class_argument.html#a8d05fec77d5dc7c7e843bf5cdc520ad5">Argument::required</a></div><div class="ttdeci">Argument &amp; required(bool required)</div><div class="ttdoc">In general, the argparse module assumes that flags like -f and –bar indicate optional arguments,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:816</div></div>
+<div class="ttc" id="aclass_argument_html_a936d515c7aa984ef7e85710d5b855cfe"><div class="ttname"><a href="class_argument.html#a936d515c7aa984ef7e85710d5b855cfe">Argument::generateSpaces</a></div><div class="ttdeci">std::string generateSpaces(std::string argumentName) const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:878</div></div>
+<div class="ttc" id="aclass_argument_html_aaa1edd9c51c75fec7e57fbd5dfd8caab"><div class="ttname"><a href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">Argument::argumentType</a></div><div class="ttdeci">Argument &amp; argumentType()</div><div class="ttdoc">By default, the parser reads command-line arguments in as simple strings. However,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:637</div></div>
+<div class="ttc" id="aclass_argument_html_aad19d5e1a67604bdfc356cdf375a5b7e"><div class="ttname"><a href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">Argument::nargs</a></div><div class="ttdeci">Argument &amp; nargs(int nargs)</div><div class="ttdoc">ArgumentParser objects usually associate a single command-line argument with a single action to be ta...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:782</div></div>
+<div class="ttc" id="aclass_argument_html_ab4b78aa1f22f3567eb69cfa572c9eaa3"><div class="ttname"><a href="class_argument.html#ab4b78aa1f22f3567eb69cfa572c9eaa3">Argument::constant</a></div><div class="ttdeci">Argument &amp; constant(T constant)</div><div class="ttdoc">The const argument of addArgument() is used to hold constant values that are not read from the comman...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:600</div></div>
+<div class="ttc" id="aclass_argument_html_ae4bb6003fdf9877ef3b8f949d9f6c868"><div class="ttname"><a href="class_argument.html#ae4bb6003fdf9877ef3b8f949d9f6c868">Argument::getNargs</a></div><div class="ttdeci">unsigned getNargs() const</div><div class="ttdoc">Getter for m_nargs</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:868</div></div>
+<div class="ttc" id="aclass_argument_html_ae5d2a37806d96bd168f0fe910f21f1de"><div class="ttname"><a href="class_argument.html#ae5d2a37806d96bd168f0fe910f21f1de">Argument::choices</a></div><div class="ttdeci">Argument &amp; choices(std::vector&lt; std::variant&lt; std::string, int, bool &gt;&gt; choices)</div><div class="ttdoc">Some command-line arguments should be selected from a restricted set of values. These can be handled ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:810</div></div>
+<div class="ttc" id="aclass_argument_html_aea0801a4d420fbc8b9a6d01d6c52834d"><div class="ttname"><a href="class_argument.html#aea0801a4d420fbc8b9a6d01d6c52834d">Argument::getNames</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getNames() const</div><div class="ttdoc">Vector of all names, need for cases like: &quot;-i&quot;, &quot;--info&quot; so &quot;--info&quot; will also be eligible for use ev...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:857</div></div>
+<div class="ttc" id="aclass_argument_parser_html"><div class="ttname"><a href="class_argument_parser.html">ArgumentParser</a></div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:20</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a00533e75883585f70eb9c5c16f8e45bc"><div class="ttname"><a href="class_argument_parser.html#a00533e75883585f70eb9c5c16f8e45bc">ArgumentParser::printAllSubParsers</a></div><div class="ttdeci">std::string printAllSubParsers(std::list&lt; ArgumentParser &gt; subParsers) const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:719</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a150a9d4b0949ad254009cab9540c6e43"><div class="ttname"><a href="class_argument_parser.html#a150a9d4b0949ad254009cab9540c6e43">ArgumentParser::allowAbbrev</a></div><div class="ttdeci">ArgumentParser &amp; allowAbbrev(bool abbrevAllowed)</div><div class="ttdoc">Normally, when you pass an argument list to the parseArgs() method of an ArgumentParser,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:339</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a1c8bc4553e1f4eb3b0582c94058c9baf"><div class="ttname"><a href="class_argument_parser.html#a1c8bc4553e1f4eb3b0582c94058c9baf">ArgumentParser::getArgument</a></div><div class="ttdeci">Argument &amp; getArgument(std::string argumentName)</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:537</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a2992e1fb979918e00c4c7b96c2cd66b3"><div class="ttname"><a href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">ArgumentParser::addArgument</a></div><div class="ttdeci">Argument &amp; addArgument(std::string shortArgumentName, std::string longArgumentName=&quot;&quot;)</div><div class="ttdoc">Filling an ArgumentParser with information about program arguments is done by making calls to the add...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:17</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a3229702ad3adc062d6f626f39b2487dc"><div class="ttname"><a href="class_argument_parser.html#a3229702ad3adc062d6f626f39b2487dc">ArgumentParser::subParsersTitle</a></div><div class="ttdeci">ArgumentParser &amp; subParsersTitle(std::string subParserTitle)</div><div class="ttdoc">Setter for m_subParsersTitle</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:358</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a3f13a529db57e5bb631ed94481648c26"><div class="ttname"><a href="class_argument_parser.html#a3f13a529db57e5bb631ed94481648c26">ArgumentParser::description</a></div><div class="ttdeci">ArgumentParser &amp; description(std::string description)</div><div class="ttdoc">Most calls to the ArgumentParser constructor will use the description() method argument....</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:257</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a4db4a58b86fb313258f53cd2e3982223"><div class="ttname"><a href="class_argument_parser.html#a4db4a58b86fb313258f53cd2e3982223">ArgumentParser::addHelp</a></div><div class="ttdeci">ArgumentParser &amp; addHelp(bool addHelp)</div><div class="ttdoc">By default, ArgumentParser objects add an option which simply displays the parser�s help message....</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:282</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a4fecf05035e7dc664747dbe4c70469d4"><div class="ttname"><a href="class_argument_parser.html#a4fecf05035e7dc664747dbe4c70469d4">ArgumentParser::epilog</a></div><div class="ttdeci">ArgumentParser &amp; epilog(std::string epilog)</div><div class="ttdoc">Some programs like to display additional description of the program after the description of the argu...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:263</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a54635eb7bdd3ee71724779bd12a3c3b1"><div class="ttname"><a href="class_argument_parser.html#a54635eb7bdd3ee71724779bd12a3c3b1">ArgumentParser::isActive</a></div><div class="ttdeci">bool isActive(std::string argumentName)</div><div class="ttdoc">After parsing the arguments using parseArgs() method, good way to see if certain argument was parsed ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:508</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a5b0441afb06ee73f30ac6d28098b9ebe"><div class="ttname"><a href="class_argument_parser.html#a5b0441afb06ee73f30ac6d28098b9ebe">ArgumentParser::subParsersDescription</a></div><div class="ttdeci">ArgumentParser &amp; subParsersDescription(std::string subParserDescription)</div><div class="ttdoc">Setter for m_subParserdescrition</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:364</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a6c41d32e3bfb55f745ccd6224d3f318d"><div class="ttname"><a href="class_argument_parser.html#a6c41d32e3bfb55f745ccd6224d3f318d">ArgumentParser::getValues</a></div><div class="ttdeci">std::vector&lt; T &gt; getValues(std::string argumentName) const</div><div class="ttdoc">After parsing values to argument object:</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:795</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a70211cd383bcca418140e127f5428d43"><div class="ttname"><a href="class_argument_parser.html#a70211cd383bcca418140e127f5428d43">ArgumentParser::argumentDefault</a></div><div class="ttdeci">ArgumentParser &amp; argumentDefault(std::variant&lt; std::string, int, bool &gt; defaultArgumentValue)</div><div class="ttdoc">Non vector variant of argumentdefault</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:301</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a75974c6c00bd701ab15582d1cdfde939"><div class="ttname"><a href="class_argument_parser.html#a75974c6c00bd701ab15582d1cdfde939">ArgumentParser::usage</a></div><div class="ttdeci">ArgumentParser &amp; usage(std::string usage)</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:239</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a7d291b6bcf05e804e2c3f705983e3db8"><div class="ttname"><a href="class_argument_parser.html#a7d291b6bcf05e804e2c3f705983e3db8">ArgumentParser::getSubParsers</a></div><div class="ttdeci">std::list&lt; ArgumentParser &gt; getSubParsers()</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:474</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a84ec32c97ffef1c8b77036aa7369d176"><div class="ttname"><a href="class_argument_parser.html#a84ec32c97ffef1c8b77036aa7369d176">ArgumentParser::printSubParser</a></div><div class="ttdeci">std::string printSubParser(const ArgumentParser &amp;subParser) const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:735</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a86f9f46c090e7e756fee3a23b40abbb0"><div class="ttname"><a href="class_argument_parser.html#a86f9f46c090e7e756fee3a23b40abbb0">ArgumentParser::fromFilePrefixChars</a></div><div class="ttdeci">ArgumentParser &amp; fromFilePrefixChars(std::string fromFilePrefixChars)</div><div class="ttdoc">Setter for m_fromFilePrefixChars</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:275</div></div>
+<div class="ttc" id="aclass_argument_parser_html_a8deb3aec1ad84f33ca5a543d9d31124a"><div class="ttname"><a href="class_argument_parser.html#a8deb3aec1ad84f33ca5a543d9d31124a">ArgumentParser::prefixChars</a></div><div class="ttdeci">ArgumentParser &amp; prefixChars(std::string prefixChars)</div><div class="ttdoc">Most command-line options will use - as the prefix, e.g. -f/–foo. Parsers that need to support differ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:269</div></div>
+<div class="ttc" id="aclass_argument_parser_html_aa1936c0226f2eb820495dcba1dd352e1"><div class="ttname"><a href="class_argument_parser.html#aa1936c0226f2eb820495dcba1dd352e1">ArgumentParser::addParser</a></div><div class="ttdeci">ArgumentParser &amp; addParser(std::string parserName)</div><div class="ttdoc">Makes a new ArgumentParser object and puts it in m_subParsers</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:351</div></div>
+<div class="ttc" id="aclass_argument_parser_html_aa8a4bd8e43c74a4f2868dbe5b5d5c50d"><div class="ttname"><a href="class_argument_parser.html#aa8a4bd8e43c74a4f2868dbe5b5d5c50d">ArgumentParser::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;out, const ArgumentParser &amp;arg_pars)</div><div class="ttdoc">Operator&lt;&lt; is used to generate help message, help message gets printed by eather parsing -h or –help ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:646</div></div>
+<div class="ttc" id="aclass_argument_parser_html_ab42a21a6a6fadcf9e41a03623cf3284f"><div class="ttname"><a href="class_argument_parser.html#ab42a21a6a6fadcf9e41a03623cf3284f">ArgumentParser::ArgumentParser</a></div><div class="ttdeci">ArgumentParser(std::string parserName=&quot;&quot;)</div><div class="ttdoc">The first step in using the argparse is creating an ArgumentParser object:</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:7</div></div>
+<div class="ttc" id="aclass_argument_parser_html_ab4ea0f17b776c155afc3baabd55b4979"><div class="ttname"><a href="class_argument_parser.html#ab4ea0f17b776c155afc3baabd55b4979">ArgumentParser::parseArgument</a></div><div class="ttdeci">void parseArgument(int argc, char *argv[])</div><div class="ttdoc">Converts contents of argv into string and passes it to parseArgument(ArgumentParser&amp;,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:54</div></div>
+<div class="ttc" id="aclass_argument_parser_html_abc8b727ab790a04620943a73f2c47aeb"><div class="ttname"><a href="class_argument_parser.html#abc8b727ab790a04620943a73f2c47aeb">ArgumentParser::prog</a></div><div class="ttdeci">ArgumentParser &amp; prog(std::string programName)</div><div class="ttdoc">By default, ArgumentParser objects use argv[0] to determine how to display the name of the program in...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:245</div></div>
+<div class="ttc" id="aclass_argument_parser_html_abdcae1a4140bf8bd6ac77921f846b1c7"><div class="ttname"><a href="class_argument_parser.html#abdcae1a4140bf8bd6ac77921f846b1c7">ArgumentParser::help</a></div><div class="ttdeci">ArgumentParser &amp; help(std::string help)</div><div class="ttdoc">Setter for m_help</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:251</div></div>
+<div class="ttc" id="aclass_argument_parser_html_ac060948ec6ced5a76775f09675bf19a2"><div class="ttname"><a href="class_argument_parser.html#ac060948ec6ced5a76775f09675bf19a2">ArgumentParser::getSubParser</a></div><div class="ttdeci">ArgumentParser &amp; getSubParser(std::string parserName)</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:376</div></div>
+<div class="ttc" id="aclass_argument_parser_html_ad96dccce434cb08999ca698421c0ddac"><div class="ttname"><a href="class_argument_parser.html#ad96dccce434cb08999ca698421c0ddac">ArgumentParser::exitOnError</a></div><div class="ttdeci">ArgumentParser &amp; exitOnError(bool exitOnError)</div><div class="ttdoc">Normally, when you pass an invalid argument list to the parseArgs() method of an ArgumentParser,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:345</div></div>
+<div class="ttc" id="aclass_argument_parser_html_ae3e4793f8856020aabf694885d6af2ae"><div class="ttname"><a href="class_argument_parser.html#ae3e4793f8856020aabf694885d6af2ae">ArgumentParser::subParsersHelp</a></div><div class="ttdeci">ArgumentParser &amp; subParsersHelp(std::string subParserHelp)</div><div class="ttdoc">Setter for m_subParsersHelp</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:370</div></div>
+<div class="ttc" id="aclass_argument_parser_html_aea0c473ede6bbbd191578efe0b1a2082"><div class="ttname"><a href="class_argument_parser.html#aea0c473ede6bbbd191578efe0b1a2082">ArgumentParser::conflictHandeler</a></div><div class="ttdeci">bool conflictHandeler(ArgumentParser &amp;argumentParser, std::string shortArgumentName, std::string longArgumentName)</div><div class="ttdoc">ArgumentParser objects do not allow two actions with the same option string. By default,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:317</div></div>
+<div class="ttc" id="aclass_argument_parser_html_aea45bc21ff2017f3f4fe1597320b9fea"><div class="ttname"><a href="class_argument_parser.html#aea45bc21ff2017f3f4fe1597320b9fea">ArgumentParser::printUsage</a></div><div class="ttdeci">std::string printUsage() const</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:389</div></div>
+>>>>>>> main
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

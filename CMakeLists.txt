@@ -56,3 +56,4 @@ endif()
 
 add_subdirectory(ArgumentParser)
 add_subdirectory(ArgumentParserLib)
+add_subdirectory(ArgumentParserUsage)

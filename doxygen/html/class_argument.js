@@ -8,8 +8,15 @@ var class_argument =
     [ "def", "class_argument.html#a7f354e9a385dd84046ef5431b02d8f63", null ],
     [ "generateSpaces", "class_argument.html#a936d515c7aa984ef7e85710d5b855cfe", null ],
     [ "getHelp", "class_argument.html#a3e154817605b011715ccd8e1ab830256", null ],
+<<<<<<< HEAD
     [ "getName", "class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414", null ],
     [ "getNames", "class_argument.html#aea0801a4d420fbc8b9a6d01d6c52834d", null ],
+=======
+    [ "getMetavar", "class_argument.html#a739efff65f96a2b65f65df3e2a873f50", null ],
+    [ "getName", "class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414", null ],
+    [ "getNames", "class_argument.html#aea0801a4d420fbc8b9a6d01d6c52834d", null ],
+    [ "getNargs", "class_argument.html#ae4bb6003fdf9877ef3b8f949d9f6c868", null ],
+>>>>>>> main
     [ "help", "class_argument.html#a520a4b24f79192546ec10c7f08b8fba5", null ],
     [ "metavar", "class_argument.html#a23e097f185c65c5690f534b6b09835b8", null ],
     [ "name", "class_argument.html#a3f863dac65fa3fa3ab9e1509391c24da", null ],

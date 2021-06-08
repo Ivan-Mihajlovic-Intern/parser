@@ -106,5 +106,25 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE_THROWS(parser.addArgument("-i", "info"));
 			}
 		}
+
+		WHEN("two arguments with the same short argument name are added")
+		{
+			parser.addArgument("-g", "--get");
+			
+			THEN("error is thrown")
+			{
+				REQUIRE_THROWS(parser.addArgument("-g"));
+			}
+		}
+
+		WHEN("two arguments with the same long argument name are added")
+		{
+			parser.addArgument("-g", "--get");
+
+			THEN("error is thrown")
+			{
+				REQUIRE_THROWS(parser.addArgument("--get"));
+			}
+		}
 	}
 }

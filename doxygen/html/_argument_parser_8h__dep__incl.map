@@ -1,7 +1,15 @@
 <map id="ArgumentParserLib/ArgumentParser.h" name="ArgumentParserLib/ArgumentParser.h">
+<<<<<<< HEAD
 <area shape="rect" id="node1" title=" " alt="" coords="128,5,321,47"/>
 <area shape="rect" id="node2" href="$_argument_parser_8cpp.html" title=" " alt="" coords="5,184,199,225"/>
 <area shape="rect" id="node3" href="$pch_8h.html" title=" " alt="" coords="140,102,309,129"/>
 <area shape="rect" id="node5" href="$main_8cpp.html" title=" " alt="" coords="333,95,487,136"/>
 <area shape="rect" id="node4" href="$pch_8cpp.html" title=" " alt="" coords="223,191,405,218"/>
+=======
+<area shape="rect" id="node1" title=" " alt="" coords="79,5,273,47"/>
+<area shape="rect" id="node2" href="$main_8cpp.html" title=" " alt="" coords="5,95,139,136"/>
+<area shape="rect" id="node3" href="$_argument_parser_8cpp.html" title=" " alt="" coords="79,184,273,225"/>
+<area shape="rect" id="node4" href="$pch_8h.html" title=" " alt="" coords="214,102,383,129"/>
+<area shape="rect" id="node5" href="$pch_8cpp.html" title=" " alt="" coords="297,191,479,218"/>
+>>>>>>> main
 </map>

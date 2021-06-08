@@ -23,7 +23,10 @@ var class_argument_parser =
     [ "parseArgument", "class_argument_parser.html#a5349dbdb2076155e3f14e2f2fefa3ea1", null ],
     [ "prefixChars", "class_argument_parser.html#a8deb3aec1ad84f33ca5a543d9d31124a", null ],
     [ "printAllSubParsers", "class_argument_parser.html#a00533e75883585f70eb9c5c16f8e45bc", null ],
+<<<<<<< HEAD
     [ "printHelp", "class_argument_parser.html#aedcce256f97c85d99f8f8323982f3a9c", null ],
+=======
+>>>>>>> main
     [ "printSubParser", "class_argument_parser.html#a84ec32c97ffef1c8b77036aa7369d176", null ],
     [ "printUsage", "class_argument_parser.html#aea45bc21ff2017f3f4fe1597320b9fea", null ],
     [ "prog", "class_argument_parser.html#abc8b727ab790a04620943a73f2c47aeb", null ],
