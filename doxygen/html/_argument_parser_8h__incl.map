@@ -1,5 +1,9 @@
 <map id="ArgumentParserLib/ArgumentParser.h" name="ArgumentParserLib/ArgumentParser.h">
+<<<<<<< HEAD
+<area shape="rect" id="node1" title=" " alt="" coords="329,5,522,47"/>
+=======
 <area shape="rect" id="node1" title=" " alt="" coords="290,5,483,47"/>
+>>>>>>> main
 <area shape="rect" id="node2" title=" " alt="" coords="5,95,77,121"/>
 <area shape="rect" id="node3" title=" " alt="" coords="102,95,157,121"/>
 <area shape="rect" id="node4" title=" " alt="" coords="181,95,219,121"/>
@@ -10,4 +14,8 @@
 <area shape="rect" id="node9" title=" " alt="" coords="569,95,647,121"/>
 <area shape="rect" id="node10" title=" " alt="" coords="671,95,739,121"/>
 <area shape="rect" id="node11" title=" " alt="" coords="764,95,839,121"/>
+<<<<<<< HEAD
+<area shape="rect" id="node12" title=" " alt="" coords="863,95,932,121"/>
+=======
+>>>>>>> main
 </map>

@@ -97,7 +97,11 @@ Collaboration diagram for Argument:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_argument__coll__graph.png" border="0" usemap="#a_argument_coll__map" alt="Collaboration graph"/></div>
 <map name="a_argument_coll__map" id="a_argument_coll__map">
+<<<<<<< HEAD
+<area shape="rect" title=" " alt="" coords="5,5,141,288"/>
+=======
 <area shape="rect" title=" " alt="" coords="5,5,141,317"/>
+>>>>>>> main
 </map>
 </div>
 <table class="memberdecls">
@@ -137,7 +141,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a520a4b24f79192546ec10c7f08b8fba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The help value is a string containing a brief description of the argument. When a user requests help (usually by using -h or &ndash;help at the command line), these help descriptions will be displayed with each argument:  <a href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">More...</a><br /></td></tr>
 <tr class="separator:a520a4b24f79192546ec10c7f08b8fba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23e097f185c65c5690f534b6b09835b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_argument.html">Argument</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">metavar</a> (std::string metavar)</td></tr>
+<<<<<<< HEAD
+<tr class="memdesc:a23e097f185c65c5690f534b6b09835b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">When <a class="el" href="class_argument_parser.html">ArgumentParser</a> generates help messages, it needs some way to refer to each expected argument. By default, <a class="el" href="class_argument_parser.html">ArgumentParser</a> objects use value as the “name” of each object. By default, for positional argument actions, the dest value is used directly, and for optional argument actions, the dest value is uppercased. So, a single positional argument with dest='bar' will be referred to as bar. A single optional argument &ndash;foo that should be followed by a single command-line argument will be referred to as FOO. An example:  <a href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">More...</a><br /></td></tr>
+=======
 <tr class="memdesc:a23e097f185c65c5690f534b6b09835b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">When <a class="el" href="class_argument_parser.html">ArgumentParser</a> generates help messages, it needs some way to refer to each expected argument. By default, <a class="el" href="class_argument_parser.html">ArgumentParser</a> objects use the dest value as the “name” of each object. By default, for positional argument actions, the dest value is used directly, and for optional argument actions, the dest value is uppercased. So, a single positional argument with dest='bar' will be referred to as bar. A single optional argument &ndash;foo that should be followed by a single command-line argument will be referred to as FOO. An example:  <a href="class_argument.html#a23e097f185c65c5690f534b6b09835b8">More...</a><br /></td></tr>
+>>>>>>> main
 <tr class="separator:a23e097f185c65c5690f534b6b09835b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1865ad92943887e2d3a0f9dcfdcbf414"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414">getName</a> () const</td></tr>
 <tr class="memdesc:a1865ad92943887e2d3a0f9dcfdcbf414"><td class="mdescLeft">&#160;</td><td class="mdescRight">String representation of the argument name  <a href="class_argument.html#a1865ad92943887e2d3a0f9dcfdcbf414">More...</a><br /></td></tr>
@@ -148,12 +156,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e154817605b011715ccd8e1ab830256"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#a3e154817605b011715ccd8e1ab830256">getHelp</a> () const</td></tr>
 <tr class="memdesc:a3e154817605b011715ccd8e1ab830256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for m_help  <a href="class_argument.html#a3e154817605b011715ccd8e1ab830256">More...</a><br /></td></tr>
 <tr class="separator:a3e154817605b011715ccd8e1ab830256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<<<<<<< HEAD
+=======
 <tr class="memitem:a739efff65f96a2b65f65df3e2a873f50"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#a739efff65f96a2b65f65df3e2a873f50">getMetavar</a> () const</td></tr>
 <tr class="memdesc:a739efff65f96a2b65f65df3e2a873f50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for m_metavar  <a href="class_argument.html#a739efff65f96a2b65f65df3e2a873f50">More...</a><br /></td></tr>
 <tr class="separator:a739efff65f96a2b65f65df3e2a873f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4bb6003fdf9877ef3b8f949d9f6c868"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#ae4bb6003fdf9877ef3b8f949d9f6c868">getNargs</a> () const</td></tr>
 <tr class="memdesc:ae4bb6003fdf9877ef3b8f949d9f6c868"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for m_nargs  <a href="class_argument.html#ae4bb6003fdf9877ef3b8f949d9f6c868">More...</a><br /></td></tr>
 <tr class="separator:ae4bb6003fdf9877ef3b8f949d9f6c868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+>>>>>>> main
 <tr class="memitem:a936d515c7aa984ef7e85710d5b855cfe"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_argument.html#a936d515c7aa984ef7e85710d5b855cfe">generateSpaces</a> (std::string argumentName) const</td></tr>
 <tr class="separator:a936d515c7aa984ef7e85710d5b855cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -239,9 +250,15 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line"><a class="code" href="class_argument_parser.html">ArgumentParser</a> parser;</div>
 <div class="line">parser.<a class="code" href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">addArgument</a>(<span class="stringliteral">&quot;integers&quot;</span>).<a class="code" href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">nargs</a>(3).<a class="code" href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">argumentType</a>&lt;<span class="keywordtype">int</span>&gt;();</div>
 <div class="line">parser.parserArgs({<span class="stringliteral">&quot;integers&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>});</div>
+<<<<<<< HEAD
+<div class="ttc" id="aclass_argument_html_aaa1edd9c51c75fec7e57fbd5dfd8caab"><div class="ttname"><a href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">Argument::argumentType</a></div><div class="ttdeci">Argument &amp; argumentType()</div><div class="ttdoc">By default, the parser reads command-line arguments in as simple strings. However,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:663</div></div>
+<div class="ttc" id="aclass_argument_html_aad19d5e1a67604bdfc356cdf375a5b7e"><div class="ttname"><a href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">Argument::nargs</a></div><div class="ttdeci">Argument &amp; nargs(int nargs)</div><div class="ttdoc">ArgumentParser objects usually associate a single command-line argument with a single action to be ta...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:799</div></div>
+<div class="ttc" id="aclass_argument_parser_html"><div class="ttname"><a href="class_argument_parser.html">ArgumentParser</a></div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:21</div></div>
+=======
 <div class="ttc" id="aclass_argument_html_aaa1edd9c51c75fec7e57fbd5dfd8caab"><div class="ttname"><a href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab">Argument::argumentType</a></div><div class="ttdeci">Argument &amp; argumentType()</div><div class="ttdoc">By default, the parser reads command-line arguments in as simple strings. However,...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:637</div></div>
 <div class="ttc" id="aclass_argument_html_aad19d5e1a67604bdfc356cdf375a5b7e"><div class="ttname"><a href="class_argument.html#aad19d5e1a67604bdfc356cdf375a5b7e">Argument::nargs</a></div><div class="ttdeci">Argument &amp; nargs(int nargs)</div><div class="ttdoc">ArgumentParser objects usually associate a single command-line argument with a single action to be ta...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:782</div></div>
 <div class="ttc" id="aclass_argument_parser_html"><div class="ttname"><a href="class_argument_parser.html">ArgumentParser</a></div><div class="ttdef"><b>Definition:</b> ArgumentParser.h:20</div></div>
+>>>>>>> main
 <div class="ttc" id="aclass_argument_parser_html_a2992e1fb979918e00c4c7b96c2cd66b3"><div class="ttname"><a href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">ArgumentParser::addArgument</a></div><div class="ttdeci">Argument &amp; addArgument(std::string shortArgumentName, std::string longArgumentName=&quot;&quot;)</div><div class="ttdoc">Filling an ArgumentParser with information about program arguments is done by making calls to the add...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:17</div></div>
 </div><!-- fragment --><p>In example written above, argument "integers" is associated with "1", "2" and "3" witch are strings, method parseArgs() tkes those strings and converts them into types specified in <a class="el" href="class_argument.html#aaa1edd9c51c75fec7e57fbd5dfd8caab" title="By default, the parser reads command-line arguments in as simple strings. However,...">argumentType&lt;type&gt;()</a>, in this case it converts them to int</p>
 <dl class="section return"><dt>Returns</dt><dd>Reference to a current object</dd></dl>
@@ -381,6 +398,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<<<<<<< HEAD
+=======
 <a id="a739efff65f96a2b65f65df3e2a873f50"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a739efff65f96a2b65f65df3e2a873f50">&#9670;&nbsp;</a></span>getMetavar()</h2>
 
@@ -400,6 +419,7 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+>>>>>>> main
 <a id="a1865ad92943887e2d3a0f9dcfdcbf414"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1865ad92943887e2d3a0f9dcfdcbf414">&#9670;&nbsp;</a></span>getName()</h2>
 
@@ -439,6 +459,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<<<<<<< HEAD
+=======
 <a id="ae4bb6003fdf9877ef3b8f949d9f6c868"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae4bb6003fdf9877ef3b8f949d9f6c868">&#9670;&nbsp;</a></span>getNargs()</h2>
 
@@ -458,6 +480,7 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+>>>>>>> main
 <a id="a520a4b24f79192546ec10c7f08b8fba5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a520a4b24f79192546ec10c7f08b8fba5">&#9670;&nbsp;</a></span>help()</h2>
 
@@ -479,7 +502,11 @@ template&lt;typename T &gt; </div>
 <div class="line">parser.<a class="code" href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">addArgument</a>(<span class="stringliteral">&quot;--foo&quot;</span>).<a class="code" href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">help</a>(<span class="stringliteral">&quot;help message for foo&quot;</span>);</div>
 <div class="line">parser.<a class="code" href="class_argument_parser.html#a2992e1fb979918e00c4c7b96c2cd66b3">addArgument</a>(<span class="stringliteral">&quot;bar&quot;</span>).<a class="code" href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">help</a>(<span class="stringliteral">&quot;help message for bar&quot;</span>);</div>
 <div class="line">parser.parseArgs({<span class="stringliteral">&quot;-h&quot;</span>})</div>
+<<<<<<< HEAD
+<div class="ttc" id="aclass_argument_html_a520a4b24f79192546ec10c7f08b8fba5"><div class="ttname"><a href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">Argument::help</a></div><div class="ttdeci">Argument &amp; help(std::string help)</div><div class="ttdoc">The help value is a string containing a brief description of the argument. When a user requests help ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:839</div></div>
+=======
 <div class="ttc" id="aclass_argument_html_a520a4b24f79192546ec10c7f08b8fba5"><div class="ttname"><a href="class_argument.html#a520a4b24f79192546ec10c7f08b8fba5">Argument::help</a></div><div class="ttdeci">Argument &amp; help(std::string help)</div><div class="ttdoc">The help value is a string containing a brief description of the argument. When a user requests help ...</div><div class="ttdef"><b>Definition:</b> ArgumentParser.cpp:822</div></div>
+>>>>>>> main
 </div><!-- fragment --><p>Output:</p>
 <div class="fragment"><div class="line">usage: frobble [-h] [--foo] bar</div>
 <div class="line"> </div>
@@ -510,7 +537,11 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<<<<<<< HEAD
+<p>When <a class="el" href="class_argument_parser.html">ArgumentParser</a> generates help messages, it needs some way to refer to each expected argument. By default, <a class="el" href="class_argument_parser.html">ArgumentParser</a> objects use value as the “name” of each object. By default, for positional argument actions, the dest value is used directly, and for optional argument actions, the dest value is uppercased. So, a single positional argument with dest='bar' will be referred to as bar. A single optional argument &ndash;foo that should be followed by a single command-line argument will be referred to as FOO. An example: </p>
+=======
 <p>When <a class="el" href="class_argument_parser.html">ArgumentParser</a> generates help messages, it needs some way to refer to each expected argument. By default, <a class="el" href="class_argument_parser.html">ArgumentParser</a> objects use the dest value as the “name” of each object. By default, for positional argument actions, the dest value is used directly, and for optional argument actions, the dest value is uppercased. So, a single positional argument with dest='bar' will be referred to as bar. A single optional argument &ndash;foo that should be followed by a single command-line argument will be referred to as FOO. An example: </p>
+>>>>>>> main
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">metavar</td><td></td></tr>
