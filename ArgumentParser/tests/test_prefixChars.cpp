@@ -1,7 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Argument Parser prefixChars", "[prefixChars]")
+SCENARIO("Optional arguments begin with '-', this can be redefined by prefixChars()", "[prefixChars]")
 {
 	GIVEN("Argument parser and argument prefixChars is set to '-+*'")
 	{

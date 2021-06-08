@@ -1,12 +1,16 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Argument names", "[name]")
+SCENARIO("Optional arguments can have only the short name", "[name]")
 {
 	GIVEN("Argument parser")
 	{
 		ArgumentTest parser;
-		
+
 		WHEN("Argument '-i' is added")
 		{
 			parser.addArgument("-i");
@@ -22,6 +26,14 @@ SCENARIO("Argument names", "[name]")
 				REQUIRE(expected2 == names[1]);
 			}
 		}
+	}
+}
+
+SCENARIO("Optional arguments have to begin with '-', and '--' if long name is provided", "[name]")
+{
+	GIVEN("Argument parser")
+	{
+		ArgumentTest parser;
 
 		WHEN("Arguments '-o' and '--option' are added")
 		{
@@ -35,6 +47,14 @@ SCENARIO("Argument names", "[name]")
 				REQUIRE(expected == result);
 			}
 		}
+	}
+}
+
+SCENARIO("Positional arguments can't start with '-' and they don't have long name", "[name]")
+{
+	GIVEN("Argument parser")
+	{
+		ArgumentTest parser;
 
 		WHEN("Argument 'integers' is added")
 		{

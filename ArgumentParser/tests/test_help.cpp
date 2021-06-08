@@ -1,23 +1,27 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Argument Parser help", "[help]")
+SCENARIO("Help message is generated based on arguments and subparsers added to parser", "[help]")
 {
 	GIVEN("Argument parser")
 	{
 		ArgumentTest parser;
 
-		WHEN("Arguments '-s, --sum' and 'inegers' are added")
+		WHEN("Arguments '-s, --sum' and 'integers' are added")
 		{
 			parser.addArgument("-s", "--sum").help("returns a sum of integers");
-			parser.addArgument("intgers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
+			parser.addArgument("integers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
 
 			THEN("Help message look like this")
 			{
 				std::stringstream helpMessage;
 				helpMessage << "Usage: program.exe [-h] [-v] [-s] x x x \n\n"
 					<< "positional arguments:\n"
-					<< " intgers        integers for sum\n\n"
+					<< " integers       integers for sum\n\n"
 					<< "optional arguments:\n"
 					<< " -h, --help     shows this message and exits\n"
 					<< " -v, --version  shows version and exits\n"
@@ -36,7 +40,7 @@ SCENARIO("Argument Parser help", "[help]")
 			parser.prog("calculator");
 			parser.usage("--sum number number number");
 			parser.addArgument("-s", "--sum").help("returns a sum of integers");
-			parser.addArgument("intgers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
+			parser.addArgument("integers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
 
 			THEN("Help message look like this")
 			{
@@ -44,7 +48,7 @@ SCENARIO("Argument Parser help", "[help]")
 				helpMessage << "Usage: calculator --sum number number number\n\n"
 					<< "Parser description\n\n"
 					<< "positional arguments:\n"
-					<< " intgers        integers for sum\n\n"
+					<< " integers       integers for sum\n\n"
 					<< "optional arguments:\n"
 					<< " -h, --help     shows this message and exits\n"
 					<< " -v, --version  shows version and exits\n"
@@ -57,10 +61,10 @@ SCENARIO("Argument Parser help", "[help]")
 			}
 		}
 
-		WHEN("Arguments '-s, --sum' and 'inegers' are added")
+		WHEN("Arguments '-s, --sum' and 'integers' are added")
 		{
 			parser.addArgument("-s", "--sum").help("returns a sum of integers");
-			parser.addArgument("intgers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
+			parser.addArgument("integers").help("integers for sum").nargs(3).argumentType<int>().metavar("x");
 			
 			parser.subParsersTitle("Git commands")
 				.subParsersDescription("Commands added to subParser")
@@ -75,7 +79,7 @@ SCENARIO("Argument Parser help", "[help]")
 				helpMessage << "Usage: program.exe [-h] [-v] [-s] x x x {commit}\n\n"
 					<< "positional arguments:\n"
 					<< " {commit}       git command commit\n"
-					<< " intgers        integers for sum\n\n"
+					<< " integers       integers for sum\n\n"
 					<< "optional arguments:\n"
 					<< " -h, --help     shows this message and exits\n"
 					<< " -v, --version  shows version and exits\n"

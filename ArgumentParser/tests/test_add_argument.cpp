@@ -1,8 +1,12 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
 
-SCENARIO("Creating the ArgumentParser", "[addArgument]")
+SCENARIO("ArgumentParser can have no arguments added", "[addArgument]")
 {
 	GIVEN("ArgumentParser")
 	{
@@ -19,8 +23,17 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE(expected == result);
 			}
 		}
+	}
+}
 
-		WHEN("One oprional argument is added ")
+SCENARIO("ArgumentParser can have ether optional or positional arguments added", "[addArgument]")
+{
+	GIVEN("ArgumentParser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
+
+		WHEN("One optional argument is added ")
 		{
 			parser.addArgument("-i");
 
@@ -33,7 +46,7 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 			}
 		}
 
-		WHEN("Two oprional arguments are added")
+		WHEN("Two optional arguments are added")
 		{
 			parser.addArgument("-i", "--info");
 
@@ -58,6 +71,15 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE(expected == result);
 			}
 		}
+	}
+}
+
+SCENARIO("Argument can't have negative number of arguments", "[addArgument]")
+{
+	GIVEN("ArgumentParser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
 
 		WHEN("Negative number of arguments is added")
 		{
@@ -66,6 +88,15 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE_THROWS(parser.addArgument("integers").nargs(-5));
 			}
 		}
+	}
+}
+
+SCENARIO("Argument names can't be over 15 characters long", "[addArgument]")
+{
+	GIVEN("ArgumentParser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
 
 		WHEN("argument name is to long ")
 		{
@@ -90,6 +121,15 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE_THROWS(parser.addArgument("-shortName", "--longParsedArgumentName"));
 			}
 		}
+	}
+}
+
+SCENARIO("Optional arguments have to begin with '-'", "[addArgument]")
+{
+	GIVEN("ArgumentParser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
 
 		WHEN("a short name of an optional argument does not begin with '-'")
 		{
@@ -97,6 +137,8 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 			{
 				REQUIRE_THROWS(parser.addArgument("i", "--info"));
 			}
+
+
 		}
 
 		WHEN("a long name of an optional argument does not begin with '--'")
@@ -106,6 +148,16 @@ SCENARIO("Creating the ArgumentParser", "[addArgument]")
 				REQUIRE_THROWS(parser.addArgument("-i", "info"));
 			}
 		}
+	}
+}
+
+SCENARIO("Arguments of the same name can't be parsed", "[addArgument]")
+{
+	GIVEN("ArgumentParser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
+
 
 		WHEN("two arguments with the same short argument name are added")
 		{
