@@ -1,22 +1,27 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
 
-SCENARIO("Adding subparsers", "[addParser]")
+SCENARIO("Subparsers can have no arguments, positional or optional arguments added", "[addParser]")
 {
 	GIVEN("One subParser")
 	{
 		ArgumentTest parser;
+		parser.exitOnError(false);
 		ArgumentParser subParser = parser.addParser("subparser");
 
 		WHEN("One positional argument named 'positional' is added")
 		{
 			subParser.addArgument("positional").nargs(3).argumentType<int>();
-			
-			THEN("The name of the first positional arument is 'positional'")
+
+			THEN("The name of the first positional argument is 'positional'")
 			{
 				const auto expected = "positional";
-				const auto cast =static_cast<ArgumentTest&>(subParser);
+				const auto cast = static_cast<ArgumentTest&>(subParser);
 				const auto result = cast.getPositionalArguments().front().getName();
 
 				REQUIRE(expected == result);
@@ -25,7 +30,7 @@ SCENARIO("Adding subparsers", "[addParser]")
 
 		WHEN("No arguments are added")
 		{
-			
+
 			THEN("Help is in optionalArguments by default")
 			{
 				const auto expected = "-h, --help";
@@ -53,7 +58,7 @@ SCENARIO("Adding subparsers", "[addParser]")
 		{
 			subParser.addArgument("-i", "--info").help("some information is displayed");
 
-			THEN("The name of the last optional arument is '-i, --info'")
+			THEN("The name of the last optional argument is '-i, --info'")
 			{
 				const auto expected = "-i, --info";
 				const auto cast = static_cast<ArgumentTest&>(subParser);
@@ -63,13 +68,16 @@ SCENARIO("Adding subparsers", "[addParser]")
 			}
 		}
 	}
+}
 
+SCENARIO("Parser can check if subparser is parsed", "[addParser]")
+{
 	GIVEN("One subParser")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
 		ArgumentParser& commit = parser.addParser("commit");
-		
+
 		WHEN("'commit' is parsed'")
 		{
 			parser.parseArgument({ "commit" });
@@ -77,24 +85,28 @@ SCENARIO("Adding subparsers", "[addParser]")
 			{
 				auto expected = true;
 				auto result = parser.isActive("commit");
-				
+
 				REQUIRE(expected == result);
 			}
 		}
 
 	}
+}
 
+SCENARIO("Subparsers can check if specific argument is parsed", "[addParser]")
+{
 	GIVEN("One subParser")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& commit = parser.addParser("commit");
+		parser.addParser("commit");
+		ArgumentParser& commit = parser.getSubParser("commit");
 		commit.addArgument("-m", "--message").help("adds a message");
-		
+
 		WHEN("'commit' and '-m' is parsed")
 		{
 			parser.parseArgument({ "commit", "-m" });
-			THEN("isActive returns true for both '-m' and '--mesage'")
+			THEN("isActive returns true for both '-m' and '--message'")
 			{
 				auto expected = true;
 				auto result1 = commit.isActive("-m");
@@ -102,11 +114,14 @@ SCENARIO("Adding subparsers", "[addParser]")
 
 				REQUIRE(expected == result1);
 				REQUIRE(expected == result2);
+
 			}
 		}
-
 	}
+}
 
+SCENARIO("Multiple subparsers can be added, but only one can be used at a time", "[addParser]")
+{
 	GIVEN("Two subParsers, commit and pull")
 	{
 		ArgumentTest parser;
@@ -117,16 +132,14 @@ SCENARIO("Adding subparsers", "[addParser]")
 		commit.addArgument("-m", "--message")
 			  .help("adds a message to a current commit").nargs(1).argumentType<std::string>();
 		commit.addArgument("-a", "--all").help("add all modified files");
-		
-		//commit  ""
 
 		pull.addArgument("-q", "--quiet").help("minimal output during fetching");
-		pull.addArgument("-ve", "--verbose").help("passes --verbose to git-feth and git-merge");
+		pull.addArgument("-ve", "--verbose").help("passes --verbose to git-fetch and git-merge");
 		
-		WHEN("'commit -m inital commit' is parsed")
+		WHEN("'commit -m initial commit' is parsed")
 		{
 				
-			parser.parseArgument({ "commit", "-m", "inital commit" });
+			parser.parseArgument({ "commit", "-m", "initial commit" });
 			
 			THEN("isActive returns true for 'commit' and returns false for 'pull'")
 			{
@@ -138,9 +151,9 @@ SCENARIO("Adding subparsers", "[addParser]")
 				REQUIRE_FALSE(expected == result2);
 			}
 
-			THEN("value of '-m' is 'inital commit'")
+			THEN("value of '-m' is 'initial commit'")
 			{
-				auto expected = "inital commit";
+				auto expected = "initial commit";
 				auto result1 = commit.getValues<std::string>("-m").front();
 
 				REQUIRE(expected == result1);
@@ -231,7 +244,7 @@ SCENARIO("Adding subparsers", "[addParser]")
 	{
 		ArgumentTest parser;
 		parser.subParsersHelp("git commands");
-		ArgumentParser& checkout = parser.addParser("checkout").help("switches to a differet brnach");
+		ArgumentParser& checkout = parser.addParser("checkout").help("switches to a different branch");
 		
 		checkout.addArgument("-b")
 			.help("adds a branch").nargs(1).argumentType<std::string>();

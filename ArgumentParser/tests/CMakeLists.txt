@@ -23,6 +23,9 @@ file(GLOB ARGUMENT_PARSER_TESTS
 	test_allowAbbrev.cpp
 	test_required.cpp
 	test_prefixChars.cpp
+	test_argumentDefault.cpp
+	test_choices.cpp
+	test_parseKnownArgs.cpp
 )
 
 add_executable(tester ${ARGUMENT_PARSER_TESTS})

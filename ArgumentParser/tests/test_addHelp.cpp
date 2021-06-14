@@ -1,7 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Argument Parser addHelp", "[addHelp]")
+SCENARIO("Optional arguments '-h, --help' and '-v, --version' are added by default, this can be disabled", "[addHelp]")
 {
 	GIVEN("Argument parser")
 	{

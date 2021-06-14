@@ -1,7 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "catch.hpp"
 #include "testClass.h"
 
-SCENARIO("Actions", "[action]")
+SCENARIO("Arguments can store constant values", "[action]")
 {
 	GIVEN("Argument parser")
 	{
@@ -15,7 +19,7 @@ SCENARIO("Actions", "[action]")
 			THEN("value of 'integer' is the value passed by constant")
 			{
 				const auto result = parser.getValues<int>("integer");
-				std::vector expected = {5};
+				std::vector expected = { 5 };
 
 				REQUIRE(expected == result);
 			}
@@ -29,12 +33,20 @@ SCENARIO("Actions", "[action]")
 			THEN("value of 'string' is the value passed by constant")
 			{
 				const auto result = parser.getValues<std::string>("string").front();
-				const auto expected =  "value" ;
+				const auto expected = "value";
 
 				REQUIRE(expected == result);
 			}
 		}
+	}
+}
 
+SCENARIO("Arguments can store true or false", "[action]")
+{
+	GIVEN("Argument parser")
+	{
+		ArgumentTest parser;
+		parser.exitOnError(false);
 		WHEN("action is set to 'sore_true'")
 		{
 			parser.addArgument("boolean").action("store_true");
