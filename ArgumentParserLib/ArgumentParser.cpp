@@ -1,3 +1,7 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "pch.h"
 #include "ArgumentParser.h"
 
@@ -9,7 +13,7 @@ ArgumentParser::ArgumentParser(std::string parserName) : m_parserName(parserName
     //-h --help option by default
     m_optionalArguments.push_back(Argument().isOptional().name("-h", "--help")
         .help("shows this message and exits"));
-    m_optionalArguments.push_back(Argument().isOptional().name("-v", "--version")
+    m_optionalArguments.push_back(Argument().isOptional().name("-ve", "--version")
         .help("shows version and exits"));
 }
 
@@ -71,7 +75,7 @@ void ArgumentParser::parseArgument(int argc, char* argv[])
 
     std::vector<std::string> parsedArguments;
     //maybe push back optional 1st then positional
-    for (int i = 1; i < argc; i++)
+    for (size_t i = 1; i < argc; i++)
     {
         parsedArguments.push_back(argv[i]);
     }
@@ -93,13 +97,9 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
     unsigned positionalArgumentsCount = 0;
     unsigned optionalArgumentsCount = 0;
     int numOfParsedArguments = parsedArguments.size();
-    for (int j = 0; j < numOfParsedArguments; ++j)
+    for (size_t j = 0; j < numOfParsedArguments; ++j)
     {
         //check if it is a subparser
-        /*if (argparse.m_abbrevAllowed)
-        {
-            abbreviationCheck(*this, parsedArguments[j]);
-        }*/
         if (!argparse.m_subParserCalled)
         {
             for (auto subParser = argparse.m_subParsers.begin(); subParser!= argparse.m_subParsers.end(); subParser++)
@@ -109,11 +109,7 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
                     argparse.m_subParserCalled = true;
                     argparse.m_activeSubParsers[subParser->m_parserName] = true;
                     parseArgument(*subParser, makeSubParserVector(parsedArguments, j));
-                    
-                    //argparse._subParsers.push_back(*subParser);
-                    //argparse._subParsers.erase(subParser);
-                    
-                    //subparsed is added last so we exit the function when its parse is done
+                  
                     return;
                 }
             }
@@ -163,14 +159,17 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
 
             Argument& currentOptionalArgument = argparse.getArgument(parsedArguments[j]);
             auto args = currentOptionalArgument.m_nargs;
-            if (args > 0)
+            if (args > 0 && (args > numOfParsedArguments - j) && !argparse.m_hasDefaultValue)
+                throw std::invalid_argument("To few optional arguments");
+            if (args > 0 && (args < numOfParsedArguments - j))
             {
-                unsigned i;
-                for (i = 0; i < args; i++)
+                //clearing default values
+                currentOptionalArgument.m_parsedValues.clear();
+                for (size_t i = 0; i < args; i++)
                 {
-                    if (numOfParsedArguments == j && !argparse.m_exitOnError)
+                    if (numOfParsedArguments < (j+args-i) && !argparse.m_exitOnError)
                     {
-                        throw std::invalid_argument("To fiew positional arguments");
+                        throw std::invalid_argument("To few positional arguments");
                     }
                     else if (numOfParsedArguments == j && argparse.m_exitOnError)
                     {
@@ -200,12 +199,13 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
             }
 
             auto args = argparse.m_positionalArguments[positionalArgumentsCount].m_nargs;
-            unsigned i;
-            for (i=0; i < args; i++)
+            //clearing defaults
+            m_positionalArguments[positionalArgumentsCount].m_parsedValues.clear();
+            for (size_t i=0; i < args; i++)
             {
                 if ((numOfParsedArguments == j) && !argparse.m_exitOnError)
                 {
-                    throw std::invalid_argument("To fiew positional arguments");
+                    throw std::invalid_argument("To few positional arguments");
                 }
                 else if ((numOfParsedArguments == j) && argparse.m_exitOnError)
                 {
@@ -224,7 +224,7 @@ void ArgumentParser::parseArgument(ArgumentParser& argparse, std::vector<std::st
     
     if ((positionalArgumentsCount + 1 < argparse.m_positionalArguments.size()) && !argparse.m_exitOnError)
     {
-        throw std::invalid_argument("To fiew positional arguments");
+        throw std::invalid_argument("To few positional arguments");
     }
     else if((positionalArgumentsCount + 1 < argparse.m_positionalArguments.size()) && argparse.m_exitOnError)
     {
@@ -278,25 +278,18 @@ ArgumentParser& ArgumentParser::prefixChars(std::string prefixChars)
     return *this;
 }
 
-ArgumentParser& ArgumentParser::fromFilePrefixChars(std::string fromFilePrefixChars)
-{
-    m_fromFilePrefixChars = fromFilePrefixChars;
-    return *this;
-}
-
-
 ArgumentParser& ArgumentParser::addHelp(bool addHelp)
 {
     std::vector<Argument> tmp;
     if (!addHelp)
     {
-        for (int i = 2; i < m_optionalArguments.size(); i++)
+        for (size_t i = 2; i < m_optionalArguments.size(); i++)
         {
             tmp.push_back(m_optionalArguments[i]);
         }
     }
     m_optionalArguments.clear();
-    for (int i = 0; i < tmp.size(); i++)
+    for (size_t i = 0; i < tmp.size(); i++)
     {
         m_optionalArguments.push_back(tmp[i]);
     }
@@ -304,19 +297,10 @@ ArgumentParser& ArgumentParser::addHelp(bool addHelp)
     return *this;
 }
 
-ArgumentParser& ArgumentParser::argumentDefault(std::variant<std::string, int, bool> defaultArgumentValue)
+ArgumentParser& ArgumentParser::argumentDefault(std::variant<std::vector<std::string>, std::vector<int>> defaultArgumentValue)
 {
-    m_defaultArgumentValue.clear();
-    m_defaultArgumentValue.push_back(defaultArgumentValue);
-    return *this;
-}
-
-ArgumentParser& ArgumentParser::argumentDefault(std::vector<std::variant<std::string, int, bool>> defaultArgumentValue)
-{
-    m_defaultArgumentValue.clear();
-    for (auto value : defaultArgumentValue)
-        m_defaultArgumentValue.push_back(value);
-
+    std::swap(m_defaultArgumentVector, defaultArgumentValue);
+    m_hasDefaultValue = true;
     return *this;
 }
 
@@ -439,7 +423,98 @@ std::string ArgumentParser::printHelp() const
     return buffer.str();
 }
 
+void ArgumentParser::parseKnownArgs(int argc, char* argv[])
+{
+    if (argc <= 1)
+    {
+        std::cout << m_usage << std::endl;
+        std::exit(0);
+    }
+
+    std::string path = argv[0];
+    if (path.find('\\') != std::string::npos)
+    {
+        programNameFromArgv(path);
+    }
+    else
+    {
+        m_programName = path;
+    }
+
+    std::vector<std::string> parsedArguments;
+    //maybe push back optional 1st then positional
+    for (size_t i = 1; i < argc; i++)
+    {
+        parsedArguments.push_back(argv[i]);
+    }
+
+    parseKnownArgs(parsedArguments);
+}
+
+void ArgumentParser::parseKnownArgs(std::vector<std::string> parsedArguments)
+{
+    std::vector<std::string> result;
+    int numberOfPositionalArguments = getNumberOfPositionalArguments();
+    for (auto& parsedArgument : parsedArguments)
+    {
+        if (checkPrefix(parsedArgument[0]))
+        {
+            if (checkIfOpionalIsAdded(parsedArgument))
+            {
+                numberOfPositionalArguments += getArgument(parsedArgument).m_nargs;
+                result.push_back(parsedArgument);
+                continue;
+            }
+            else
+            {
+                m_unusedValues.push_back(parsedArgument);
+                continue;
+            }
+        }
+        else
+        {
+            if (numberOfPositionalArguments > 0)
+            {
+                result.push_back(parsedArgument);
+                numberOfPositionalArguments--;
+            }
+            else
+            {
+                m_unusedValues.push_back(parsedArgument);
+            }
+        }
+    }
+
+    parseArgument(result);
+}
+
+std::vector<std::string> ArgumentParser::getUnusedValues()
+{
+    return m_unusedValues;
+}
+
 /*****************************PRIVATE FUNCTIONS****************************************/
+int ArgumentParser::getNumberOfPositionalArguments()
+{
+    int result = 0;
+    for (auto& positionalArgument : m_positionalArguments)
+    {
+        result += positionalArgument.m_nargs;
+    }
+
+    return result;
+}
+
+bool ArgumentParser::checkIfOpionalIsAdded(const std::string parsedArgument)
+{
+    for (auto& argument : m_optionalArguments)
+    {
+        if (argument.getNames().front() == parsedArgument || argument.getNames().back() == parsedArgument)
+            return true;
+    }
+
+    return false;
+}
 
 void ArgumentParser::checkForRequired(ArgumentParser& argumentParser)
 {
@@ -447,8 +522,8 @@ void ArgumentParser::checkForRequired(ArgumentParser& argumentParser)
     {
         if (argument.m_required)
         {
-            if (!m_activeArguments[argument.getNames()[0]] ||
-                (!m_activeArguments[argument.getNames()[1]] && (!argument.getNames()[1].empty())))
+            if (!argumentParser.m_activeArguments[argument.getNames()[0]] ||
+                (!argumentParser.m_activeArguments[argument.getNames()[1]] && (!argument.getNames()[1].empty())))
             {
                 if (argumentParser.m_exitOnError)
                 {
@@ -457,7 +532,7 @@ void ArgumentParser::checkForRequired(ArgumentParser& argumentParser)
                 }
                 else
                 {
-                    throw std::invalid_argument("Argument: " + argument.getName() + " is rquired but isn't parsed");
+                    throw std::invalid_argument("Argument: " + argument.getName() + " is required but isn't parsed");
                 }
             }
         }
@@ -508,7 +583,7 @@ bool ArgumentParser::isNegativeNumber(std::string parsedArgument)
     if (parsedArgument[0] != '-')
         return false;
 
-    for (int i = 1; i < parsedArgument.length(); i++)
+    for (size_t i = 1; i < parsedArgument.length(); i++)
     {
         if (!std::isdigit(parsedArgument[i]))
             return false;
@@ -519,10 +594,7 @@ bool ArgumentParser::isNegativeNumber(std::string parsedArgument)
 
 bool ArgumentParser::isActive(std::string argumentName)
 {
-    //if argument and subparser have the same name isActive would not work as inteded
-    if (m_activeArguments[argumentName] && m_activeSubParsers[argumentName])
-        throw std::invalid_argument("Argument and subparser of same name are parsed");
-
+    //if argument and subparser have the same name isActive would not work as intended
     return m_activeArguments[argumentName] || m_activeSubParsers[argumentName];
 }
 
@@ -552,12 +624,6 @@ Argument& ArgumentParser::getArgument(std::string argumentName)
     {
         auto names = argument.getNames();
         if (names[0] == argumentName || names[1] == argumentName)
-            return argument;
-    }
-
-    for (auto& argument : m_positionalArguments)
-    {
-        if (argument.getName() == argumentName)
             return argument;
     }
 
@@ -717,7 +783,7 @@ std::ostream& operator<<(std::ostream& out, const ArgumentParser& arg_pars)
 
         for (auto& subParser : arg_pars.m_subParsers)
         {
-            out << subParser.printSubParser(subParser);
+            out << subParser.printSubParser();
         }
     }
 
@@ -743,17 +809,24 @@ std::string ArgumentParser::printAllSubParsers(std::list<ArgumentParser> subPars
     result = result.substr(0, result.size() - 1);
     result += "}";
     
-    std::string spaces(helpLength - result.length() + 1, ' ');
-    result +=  spaces + m_subParsersHelp + "\n";
-
+    if (result.length() + 1 < helpLength)
+    {
+        std::string spaces(helpLength - result.length() + 1, ' ');
+        result += spaces + m_subParsersHelp + "\n";
+    }
+    else
+    {
+        std::string spaces(helpLength, ' ');
+        result += "\n" + spaces + m_subParsersHelp + "\n";
+    }
     return result;
 }
 
-std::string ArgumentParser::printSubParser(const ArgumentParser& subParser) const 
+std::string ArgumentParser::printSubParser() const 
 {
     std::string result;
-    std::string spaces(helpLength - subParser.m_parserName.length(), ' ');
-    result += " " + subParser.m_parserName + spaces + subParser.m_help + "\n";
+    std::string spaces(helpLength - this->m_parserName.length(), ' ');
+    result += " " + this->m_parserName + spaces + this->m_help + "\n";
 
     return result;
 }
@@ -778,7 +851,7 @@ Argument& Argument::name(std::string shortArgumentName, std::string longArgument
     m_name.push_back(shortArgumentName);
     m_name.push_back(longArgumentName);
 
-    //generating ussage
+    //generating usage
     if (m_isOptional)
         m_usage = '[' + shortArgumentName + "] ";
     else
@@ -802,12 +875,12 @@ Argument& Argument::nargs(int nargs)
         throw std::invalid_argument("Nargs has to be a positive number");
     m_nargs = nargs;
 
-    //rewriting ussage
+    //rewriting usage
     if (m_isOptional)
         m_usage = "[" + m_name.front() + " ";
     else
         m_usage = "";
-    for (int i = 0; i < nargs; i++)
+    for (size_t i = 0; i < nargs; i++)
     {
         if (m_metavar == "")
             m_usage += m_name.front() + ' ';
@@ -824,7 +897,7 @@ Argument& Argument::nargs(int nargs)
     return *this;
 }
 
-Argument& Argument::choices(std::vector<std::variant<std::string, int, bool>> choices)
+Argument& Argument::choices(std::vector<std::variant<std::string, int>> choices)
 {
     m_choices = choices;
     return *this;
@@ -894,13 +967,24 @@ Argument& Argument::isOptional()
 
 void Argument::actionCheck(const std::string action)
 {
-    for (int i = 0; i != allowedActions.size(); i++)
+    for (size_t i = 0; i != allowedActions.size(); i++)
     {
         if (action == allowedActions[i])
             return;
     }
-    //TODO: maybe it is a differend throw
+    //TODO: maybe it is a different throw
     throw std::invalid_argument("Action: " + action + " is not a valid option");
+}
+
+bool Argument::checkForChoices(std::variant<std::string, int> parsedValue)
+{
+    for (auto& value : m_choices)
+    {
+        if (value == parsedValue)
+            return true;
+    }
+
+    return false;
 }
 
 //TODO: implement actions
@@ -919,22 +1003,6 @@ void Argument::performAcion(const std::string action)
     {
         m_parsedValues.push_back(false);
     }
-    else if (action == "append")
-    {
-
-    }
-    else if (action == "append_const")
-    {
-
-    }
-    else if (action == "count")
-    {
-
-    }
-    else if (action == "help")
-    {
-        
-    }
     else 
     {
         //nothing        
@@ -945,14 +1013,22 @@ void Argument::resolveArgumentTypes(std::string value)
 {
     //no need for conversion if it is a string
     //_parsedValues::value_type s;
-    if (m_type == "string")
+    if (std::holds_alternative<std::string>(m_argumentType))
     {
+        if (!m_choices.empty())
+            if (!checkForChoices(value))
+                throw std::invalid_argument("Argument value is different from its choices");
         m_parsedValues.push_back(value);
     }
-    else if (m_type == "int")
+    else if (std::holds_alternative<int>(m_argumentType))
     {
         //conversion fail?
         int a = std::stoi(value);
+        
+        if (!m_choices.empty())
+            if (!checkForChoices(a))
+                throw std::invalid_argument("Argument value is different from its choices");
+
         m_parsedValues.push_back(a);
     }
     else
