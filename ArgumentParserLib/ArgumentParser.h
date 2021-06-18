@@ -840,7 +840,6 @@ private:
                                             "count", "help"};
 };
 
-//TODO: rename variables
 template<typename T>
 std::vector<T> ArgumentParser::getValues(std::string argumentName) const
 {
@@ -853,28 +852,45 @@ std::vector<T> ArgumentParser::getValues(std::string argumentName) const
             {
                 for (int i = 0; i < arg.m_parsedValues.size(); i++)
                 {
-                    T tmp = std::get<T>(arg.m_parsedValues[i]);
-                    result.push_back(tmp);
+                    try {
+                        T tmp = std::get<T>(arg.m_parsedValues[i]);
+                        result.push_back(tmp);
+                    }
+                    catch (std::bad_variant_access const& ex)
+                    {
+                        std::cout << printUsage() << "\n\n";
+                        std::cout << ex.what() << "\n";
+                        exit(-1);
+                    }
                 }
                     return result;
             }
             else
             {
-                auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
+
+                try {
+                    auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
                     {
                         std::vector<std::variant<std::string, int, bool>> tmp;
                         for (auto&& defaultValue : defaultValues)
                             tmp.push_back(defaultValue);
                         return tmp;
                     }, m_defaultArgumentVector);
-
-                for (auto& defaultValue : temporeary)
+                    for (auto& defaultValue : temporeary)
                 {
                     T tmp = std::get<T>(defaultValue);
                     result.push_back(tmp);
                 }
 
-                return result;
+                    return result;
+                }
+                catch (std::bad_variant_access const& ex)
+                {
+                    std::cout << printUsage() << "\n\n";
+                    std::cout << ex.what() << "\n";
+                    exit(-1);
+                }
+
             }
         }
     }
@@ -887,28 +903,44 @@ std::vector<T> ArgumentParser::getValues(std::string argumentName) const
             {
                 for (int i = 0; i < arg.m_parsedValues.size(); i++)
                 {
-                    T tmp = std::get<T>(arg.m_parsedValues[i]);
-                    result.push_back(tmp);
+                    try {
+                        T tmp = std::get<T>(arg.m_parsedValues[i]);
+                        result.push_back(tmp);
+                    }
+                    catch (std::bad_variant_access const& ex)
+                    {
+                        std::cout << printUsage() << "\n\n";
+                        std::cout << ex.what() << "\n";
+                        exit(-1);
+                    }
                 }
                     return result;
             }
             else
             {
-                auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
+                try {
+                    auto temporeary = std::visit([](auto defaultValues) -> std::vector<std::variant<std::string, int, bool>>
+                        {
+                            std::vector<std::variant<std::string, int, bool>> tmp;
+                            for (auto&& defaultValue : defaultValues)
+                                tmp.push_back(defaultValue);
+                            return tmp;
+                        }, m_defaultArgumentVector);
+
+                    for (auto& defaultValue : temporeary)
                     {
-                        std::vector<std::variant<std::string, int, bool>> tmp;
-                        for (auto&& defaultValue : defaultValues)
-                            tmp.push_back(defaultValue);
-                        return tmp;
-                    }, m_defaultArgumentVector);
+                        T tmp = std::get<T>(defaultValue);
+                        result.push_back(tmp);
+                    }
 
-                for (auto& defaultValue : temporeary)
-                {
-                    T tmp = std::get<T>(defaultValue);
-                    result.push_back(tmp);
+                    return result;
                 }
-
-                return result;
+                catch (std::bad_variant_access const& ex)
+                {
+                    std::cout << printUsage() << "\n\n";
+                    std::cout << ex.what() << "\n";
+                    exit(-1);
+                }
             }
         }
     }
